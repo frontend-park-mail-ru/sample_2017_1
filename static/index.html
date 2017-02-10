@@ -7,6 +7,22 @@
 <body>
 
 	<h1>Hello World!</h1>
+	<input type="text" id="name">
+	<button id="go">Обновить ссылку!</button>
+	<h3><a href="" id="link">Пусто</a></h3>
+
+	<script>
+		'use strict';
+
+		const button = document.getElementById('go');
+		const link = document.getElementById('link');
+		const input = document.getElementById('name');
+		button.onclick = function () {
+			const name = input.value;
+			link.href = `/hello?name=${name}`;
+			link.textContent = `/hello?name=${name}`;
+		}
+	</script>
 
 </body>
 </html>

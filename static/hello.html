@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello</title>
+</head>
+<body>
+
+	<h1 id="hello"></h1>
+
+	<script>
+		'use strict';
+
+		const header = document.getElementById('hello');
+
+		console.log(location);
+		const name = location.search.split('=').pop();
+
+		header.textContent = `Привет, ${name}!`;
+
+	</script>
+
+</body>
+</html>
