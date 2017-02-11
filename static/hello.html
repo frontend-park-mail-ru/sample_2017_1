@@ -6,16 +6,21 @@
 </head>
 <body>
 
-	<h1 id="hello"></h1>
+	<h1 id="header"></h1>
 
 	<script>
 		'use strict';
 
-		const header = document.getElementById('hello');
+		// Получаем ссылку на заголовок
+		const header = document.getElementById('header');
 
+		// Выводим объект location
 		console.log(location);
-		const name = location.search.split('=').pop();
 
+		// Получаем имя из query-string
+		const name = location.search.split('=').pop() || 'Anonimous';
+
+		// Выводим приветствие
 		header.textContent = `Привет, ${name}!`;
 
 	</script>
