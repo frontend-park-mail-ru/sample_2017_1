@@ -14,8 +14,10 @@ const worker = function (request, response) {
 	let content;
 	if (url === '/') {
 		content = fs.readFileSync('./static/index.html', 'utf8');
+	} else if (url === '/main.js') {
+		content = fs.readFileSync('./static/main.js', 'utf8');
 	} else {
-		content = fs.readFileSync('./static/hello.html', 'utf8');
+		content = '404';
 	}
 
 	// Записываем заголовок в ответ

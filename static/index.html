@@ -6,37 +6,28 @@
 </head>
 <body>
 
-	<h1>Hello World!</h1>
+	<div id="page1">
 
-	<div>
-		<label for="input">Введите имя:</label>
-		<input type="text" id="input">
-		<br/>
-		<button id="button">Обновить ссылку!</button>
+		<h1>Hello World!</h1>
+
+		<div>
+			<label for="input">Введите имя:</label>
+			<input type="text" id="input">
+			<br/>
+			<button id="button">Пусти меня в чат!!!</button>
+		</div>
 	</div>
-	<h3>
-		<a href="" id="link">Тут пока пусто</a>
-	</h3>
 
-	<script>
-		'use strict';
+	<div id="page2">
+		<h1 id="header"></h1>
+		<div>
+			<input type="text" id="message">
+			<input type="submit" value="Отправить сообщение!!!">
+			<div id="messages"></div>
+		</div>
+	</div>
 
-		// Получаем ссылки на элементы страницы:
-		const button = document.getElementById('button');
-		const input = document.getElementById('input');
-		const link = document.getElementById('link');
 
-		// Добавляем функцию, которая будет вызываться при
-		// клике на кнопку
-		button.onclick = function () {
-			// Получаем введённое значение
-			const name = input.value;
-			// Обновляем ссылку
-			link.href = `/hello?name=${name}`;
-			// Обновляем надпись на ссылке
-			link.textContent = `Открыть ${link.href}`;
-		}
-	</script>
-
+	<script src="main.js"></script>
 </body>
 </html>
