@@ -12,5 +12,8 @@
   },
   "keywords": [],
   "author": "",
-  "homepage": "https://github.com/frontend-park-mail-ru/sample#readme"
+  "homepage": "https://github.com/frontend-park-mail-ru/sample#readme",
+  "dependencies": {
+    "express": "^4.14.1"
+  }
 }
