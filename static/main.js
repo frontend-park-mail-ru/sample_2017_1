@@ -36,12 +36,22 @@ button.addEventListener('click', function (event) {
 
 // Добавляем обработчик события на кнопку "отправки сообщения"
 sendMessage.addEventListener('click', function (event) {
-	const message = messageInput.value;
-	const messageText = `Сообщение от ${myName}: ${message}`;
+	const messageContentText = messageInput.value;
+	const messageFromText = `Сообщение от ${myName} (${new Date().toLocaleTimeString('ru-RU')})`;
 
 	// Создаём новый элемент
-	const newMessageElement = document.createElement('div');
-	newMessageElement.textContent = messageText;
+	const newMessageElement = document.createElement('li');
+	const newMessageFromElement = document.createElement('span');
+	const newMessageContentElement = document.createElement('blockquote');
+
+	newMessageElement.classList.add('message-item');
+	newMessageFromElement.classList.add('from');
+
+	newMessageFromElement.textContent = messageFromText;
+	newMessageContentElement.textContent = messageContentText;
+
+	newMessageElement.appendChild(newMessageFromElement);
+	newMessageElement.appendChild(newMessageContentElement);
 
 	// Добавляем его на страницу
 	messages.appendChild(newMessageElement);

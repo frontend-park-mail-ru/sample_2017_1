@@ -3,32 +3,42 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Sample</title>
+	<link rel="stylesheet" href="/styles/main.css">
 </head>
 <body>
 
 	<div id="page1">
+		<main>
 
-		<h1>Hello World!</h1>
+			<h1 class="header">Hello World!</h1>
 
-		<div>
-			<label for="input">Введите имя:</label>
-			<input type="text" id="input">
-			<br/>
-			<button id="button">Пусти меня в чат!!!</button>
-		</div>
+			<div class="inputs">
+				<label for="input">Введите имя:</label>
+				<input type="text" id="input" class="text-input">
+			</div>
 
+			<div class="buttons">
+				<button id="button" class="button">Пусти меня в чат!!!</button>
+			</div>
+
+		</main>
 	</div>
 
 	<div id="page2">
+		<main>
 
-		<h1 id="header"></h1>
+			<h1 id="header" class="header"></h1>
 
-		<div>
-			<input type="text" id="message">
-			<input type="submit" value="Отправить сообщение!!!">
-			<div id="messages"></div>
-		</div>
+			<div class="inputs">
+				<label for="message">Введите текст сообщения:</label>
+				<input type="text" id="message" class="text-input">
+			</div>
+			<div class="buttons">
+				<input type="submit" value="Отправить сообщение!!!" class="button">
+			</div>
+			<ul id="messages" class="messages"></ul>
 
+		</main>
 	</div>
 
 

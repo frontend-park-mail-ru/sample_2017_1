@@ -1,0 +1,26 @@
+.text-input {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	border: 0.1rem solid #d1d1d1;
+	border-radius: .4rem;
+	box-shadow: none;
+	box-sizing: inherit;
+	font-size: 2rem;
+	height: 3.8rem;
+	padding: .6rem 1.5rem;
+	width: calc(100% - 3.2rem);
+}
+
+.text-input:focus {
+	border-color: #9b4dca;
+	outline: 0;
+}
+
+label {
+	display: block;
+	font-size: 1.6rem;
+	font-weight: 700;
+	margin-bottom: .5rem;
+}
