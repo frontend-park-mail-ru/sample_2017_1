@@ -3,6 +3,7 @@
 
 	// import
 	// form, button
+	const tmpl = window.chat_tmpl;
 
 	class Chat {
 
@@ -49,14 +50,16 @@
 		 * @param {Object} data
 		 */
 		_updateHtml (data) {
-			this.el.innerHTML = `
-				<h3 id="jsTitle">Ты в чате, ${data.username}!</h3>
-				<div id="jsMessages" class="chat">
-					<div class="cssload-wrap">
-						<div class="cssload-cssload-spinner"></div>
-					</div>
-				</div>
-			`;
+			this.el.innerHTML = tmpl(data);
+
+			// `
+			// 	<h3 id="jsTitle">Ты в чате, ${data.username}!</h3>
+			// 	<div id="jsMessages" class="chat">
+			// 		<div class="cssload-wrap">
+			// 			<div class="cssload-cssload-spinner"></div>
+			// 		</div>
+			// 	</div>
+			// `;
 		}
 
 		/**
