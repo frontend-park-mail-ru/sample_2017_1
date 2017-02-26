@@ -15,6 +15,9 @@ const worker = function (request, response) {
 
 	// Определяем, какой из файлов мы будем использовать
 	let content;
+	// мы оптимисты
+	let statusCode = 200;
+
 	if (url === '/') {
 		content = fs.readFileSync(`${BASE_PATH}/index.html`, 'utf8');
 	} else {
@@ -22,6 +25,7 @@ const worker = function (request, response) {
 		try {
 			fs.accessSync(filePath); // проверим!
 		} catch (e) {
+			statusCode = 404;
 			content = e.toString();
 		}
 
@@ -31,7 +35,7 @@ const worker = function (request, response) {
 	}
 
 	// Записываем статус в ответ
-	response.writeHead(200);
+	response.statusCode = statusCode;
 
 	// Данные в ответ
 	response.write(content);

@@ -3,8 +3,13 @@
 <head>
 	<meta charset="UTF-8" />
 	<title>Sample</title>
-	<link rel="stylesheet" href="css/milligram.min.css"/>
-	<link rel="stylesheet" href="css/main.css" />
+
+	<!-- Стили приложения -->
+	<link rel="stylesheet" href="/css/milligram.min.css"/>
+	<link rel="stylesheet" href="/css/main.css" />
+
+	<!-- Стили компонент -->
+	<link rel="stylesheet" href="/blocks/chat/chat.css" />
 </head>
 <body>
 
@@ -23,15 +28,16 @@
 	</div>
 
 	<div id="page2">
-		<h1 id="header"></h1>
+		<!-- <h1 id="header"></h1>
 		<div>
 			<input type="text" id="message">
 			<input type="submit" id="sendButton" value="Отправить сообщение!!!">
 			<div id="messages"></div>
-		</div>
+		</div> -->
 	</div>
 
 
+	<script src="/blocks/chat/chat.js"></script>
 	<script src="main.js"></script>
 </body>
 </html>

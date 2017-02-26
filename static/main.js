@@ -18,18 +18,34 @@ page2.hidden = true;
 let myName = null;
 
 button.addEventListener('click', function (event) {
-	const name = input.value;
-	myName = name;
-	header.textContent = `Привет, ${name}!`;
-	page1.hidden = true;
-	page2.hidden = false;
+	const username = input.value;
+
+	showChatPage({
+		username
+	});
 });
 
-sendMessage.addEventListener('click', function (event) {
-	const message = messageInput.value;
-	const messageText = `Сообщение от ${myName}: ${message}`;
-	const newMessageElement = document.createElement('div');
-	newMessageElement.textContent = messageText;
-	messages.appendChild(newMessageElement);
-	messageInput.value = '';
-});
+function showChatPage (pageData) {
+	page1.hidden = true;
+	page2.hidden = false;
+
+	window.chat = new Chat({
+		el: document.createElement('div')
+	});
+
+	chat.set({
+		username: pageData.username,
+		messages: []
+	});
+	chat.install(page2);
+	chat.render();
+}
+
+// sendMessage.addEventListener('click', function (event) {
+// 	const message = messageInput.value;
+// 	const messageText = `Сообщение от ${myName}: ${message}`;
+// 	const newMessageElement = document.createElement('div');
+// 	newMessageElement.textContent = messageText;
+// 	messages.appendChild(newMessageElement);
+// 	messageInput.value = '';
+// });
