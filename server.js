@@ -3,6 +3,9 @@
 // Импортируем модули, отвечающие за работу с http и с файловой системой
 const http = require('http');
 const fs = require('fs');
+const path = require('path');
+
+const BASE_PATH = 'static'
 
 // Создаём фукнцию-обработчик запросов
 const worker = function (request, response) {
@@ -13,15 +16,22 @@ const worker = function (request, response) {
 	// Определяем, какой из файлов мы будем использовать
 	let content;
 	if (url === '/') {
-		content = fs.readFileSync('./static/index.html', 'utf8');
-	} else if (url === '/main.js') {
-		content = fs.readFileSync('./static/main.js', 'utf8');
+		content = fs.readFileSync(`${BASE_PATH}/index.html`, 'utf8');
 	} else {
-		content = '404';
+		let filePath = path.resolve(`${BASE_PATH}${url}`); // наш файл лежит здесь
+		try {
+			fs.accessSync(filePath); // проверим!
+		} catch (e) {
+			content = e.toString();
+		}
+
+		if (!content) {
+			content = fs.readFileSync(filePath, 'utf8');
+		}
 	}
 
-	// Записываем заголовок в ответ
-	response.writeHead(200, {"Content-Type": "text/html"});
+	// Записываем статус в ответ
+	response.writeHead(200);
 
 	// Данные в ответ
 	response.write(content);

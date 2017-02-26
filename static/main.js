@@ -11,7 +11,7 @@ const header = document.getElementById('header');
 
 const messageInput = document.getElementById('message');
 const sendMessage = document
-	.querySelector('input[type=submit]');
+	.querySelector('#sendButton');
 const messages = document.getElementById('messages');
 
 page2.hidden = true;
