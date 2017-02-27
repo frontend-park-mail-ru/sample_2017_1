@@ -1,51 +1,59 @@
 'use strict';
 
-// alert('YES');
+(function () {
+	let loginPage = document.querySelector('.js-login');
+	let chatPage = document.querySelector('.js-chat');
 
-const page1 = document.getElementById('page1');
-const page2 = document.getElementById('page2');
+	let form = new Form({
+			el: document.createElement('div'),
+			data: {
+				title: 'Login',
+				fields: [
+					{
+						name: 'user',
+						type: 'text'
+					},
+					{
+						name: 'email',
+						type: 'email'
+					}
+				],
+				controls: [
+					{
+						text: 'Войти',
+						attrs: {
+							type: 'submit'
+						}
+					}
+				]
+			}
+		});
 
-const button = document.getElementById('button');
-const input = document.getElementById('input');
-const header = document.getElementById('header');
+		let chat = new Chat({
+			el: document.createElement('div'),
+		});
 
-const messageInput = document.getElementById('message');
-const sendMessage = document
-	.querySelector('#sendButton');
-const messages = document.getElementById('messages');
+		form.on('submit', event => {
+			event.preventDefault();
 
-page2.hidden = true;
-let myName = null;
+			let formData = form.getFormData();
+			technolibs.request('/api/login', formData);
 
-button.addEventListener('click', function (event) {
-	const username = input.value;
+			chat.set({
+				username: formData.user,
+				email: formData.email
+			})
+			.render();
 
-	showChatPage({
-		username
-	});
-});
+			chat.subscribe();
 
-function showChatPage (pageData) {
-	page1.hidden = true;
-	page2.hidden = false;
+			loginPage.hidden = true;
+			chatPage.hidden = false;
+		});
 
-	window.chat = new Chat({
-		el: document.createElement('div')
-	});
+		loginPage.appendChild(form.el);
+		chatPage.appendChild(chat.el);
 
-	chat.set({
-		username: pageData.username,
-		messages: []
-	});
-	chat.install(page2);
-	chat.render();
-}
+		loginPage.hidden = false;
 
-// sendMessage.addEventListener('click', function (event) {
-// 	const message = messageInput.value;
-// 	const messageText = `Сообщение от ${myName}: ${message}`;
-// 	const newMessageElement = document.createElement('div');
-// 	newMessageElement.textContent = messageText;
-// 	messages.appendChild(newMessageElement);
-// 	messageInput.value = '';
-// });
+})()
