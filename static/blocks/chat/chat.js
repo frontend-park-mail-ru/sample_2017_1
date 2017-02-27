@@ -2,12 +2,16 @@
 	'use strict';
 
 	// import
-	let Button = window.Button;
+	// form, button
+	const tmpl = window.chat_tmpl;
 
 	class Chat {
 
 		/**
 		 * Конструктор класса Chat
+		 * @param {Object} params
+		 * @param {Object} params.data
+		 * @param {HTMLElement} params.el
  		 */
 		constructor ({ data = {}, el }) {
 			this.data = data;
@@ -32,17 +36,38 @@
 			return this;
 		}
 
-		_updateHtml (data) {
-			this.el.innerHTML = `
-				<h3 id="jsTitle">Ты в чате, ${data.username}!</h3>
-				<div id="jsMessages" class="chat">
-					<div class="cssload-wrap">
-						<div class="cssload-cssload-spinner"></div>
-					</div>
-				</div>
-			`;
+		/**
+		 * Интегрируем копонент в DOM
+		 * @param {HTMLElement} el
+		 */
+		install (el) {
+			el.appendChild(this.el);
 		}
 
+		/**
+		 * Обновляем HTML элемента
+		 * @private
+		 * @param {Object} data
+		 */
+		_updateHtml (data) {
+			this.el.innerHTML = tmpl(data);
+
+			// `
+			// 	<h3 id="jsTitle">Ты в чате, ${data.username}!</h3>
+			// 	<div id="jsMessages" class="chat">
+			// 		<div class="cssload-wrap">
+			// 			<div class="cssload-cssload-spinner"></div>
+			// 		</div>
+			// 	</div>
+			// `;
+		}
+
+		/**
+		 * Создаем элемент одного сообщения
+		 * @private
+		 * @param {Object} opts
+		 * @param {boolean} isMy
+		 */
 		_createMessage (opts, isMy = false) {
 			let message = document.createElement('div');
 			let email = document.createElement('div');
@@ -50,12 +75,7 @@
 			message.classList.add('chat__message');
 			email.classList.add('chat__email');
 
-			if (isMy) {
-				message.classList.add('chat__message_my');
-			} else {
-				// TODO: доделать
-				// message.style.backgroundColor = `#${technolibs.colorHash(opts.email || '')}`;
-			}
+			message.classList.add('chat__message_my');
 
 			message.innerHTML = opts.message;
 			email.innerHTML = opts.email;
@@ -64,6 +84,12 @@
 			return message;
 		}
 
+		/**
+		 * Обновляем HTML сообщений
+		 * @private
+		 * @param {Object} opts
+		 * @param {boolean} isMy
+		 */
 		_renderMessages (items) {
 			if (!items.length) {
 				return;
@@ -76,15 +102,8 @@
 				let message = this._createMessage(item, item.email === this.data.email);
 				messages.appendChild(message);
 			});
+
 			messages.scrollTop = messages.scrollHeight;
-		}
-
-		on (type, callback) {
-			this.el.addEventListener(type, callback);
-		}
-
-		install (el) {
-			el.appendChild(this.el);
 		}
 	}
 
