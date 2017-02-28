@@ -51,15 +51,6 @@
 		 */
 		_updateHtml (data) {
 			this.el.innerHTML = tmpl(data);
-
-			// `
-			// 	<h3 id="jsTitle">Ты в чате, ${data.username}!</h3>
-			// 	<div id="jsMessages" class="chat">
-			// 		<div class="cssload-wrap">
-			// 			<div class="cssload-cssload-spinner"></div>
-			// 		</div>
-			// 	</div>
-			// `;
 		}
 
 		/**
@@ -104,6 +95,11 @@
 			});
 
 			messages.scrollTop = messages.scrollHeight;
+		}
+
+		sendMessage (message) {
+			this.data.messages.push({message, email: this.data.email});
+			this._renderMessages(this.data.messages);
 		}
 	}
 

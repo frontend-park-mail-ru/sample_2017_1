@@ -2,62 +2,78 @@
 	'use strict';
 
 	// import
-	const Block = window.Block;
-	const Button = window.Button;
+	let Button = window.Button;
 
 	class Form {
 
 		/**
 		 * Конструктор класса Form
-		 */
-		constructor(options = {data: {}}) {
-			this._options = options;
-			this.template = window.fest['form/form.tmpl'];
+ 		 */
+		constructor (options = { data: {} }) {
 			this.data = options.data;
-			this._el = options.el;
+			this.el = options.el;
+
 			this.render();
 		}
 
-		/**
-		 * Обновляем HTML
-		 */
-		render() {
-			this._updateHtml();
+		render () {
+			this._updateHtml()
 			this._installControls();
 		}
 
 		/**
-		 * Обнуляем форму
+		 * Вернуть поля формы
+		 * @return {string}
 		 */
-		reset() {
-			this._el.querySelector('form').reset();
+		_getFields () {
+			let { fields = [] } = this.data;
+
+			return fields.map(field => { return `<input type="text" name="${field.name}">` }).join(' ')
 		}
 
 		/**
 		 * Обновить html компонента
 		 */
-		_updateHtml() {
-			this._el.innerHTML = this.template(this.data);
+		_updateHtml () {
+			this.el.innerHTML = `
+				<form>
+					<h1>${this.data.title || ''}</h1>
+					<div>
+						${this._getFields()}
+					</div>
+					<div class="js-controls">
+					</div>
+				<form>
+			`;
 		}
 
 		/**
 		 * Вставить управляющие элементы в форму
 		 */
-		_installControls() {
-			let {controls = []} = this.data;
+		_installControls () {
+			let { controls = [] } = this.data;
 
 			controls.forEach(data => {
-				let control = new Button({text: data.text});
-				this._el.querySelector('.js-controls').appendChild(control._get());
+				let control = new Button({text: data.text}).render();
+				this.el.querySelector('.js-controls').appendChild(control.el);
 			});
+		}
+
+		/**
+		 * Подписка на событие
+		 * @param {string} type - имя события
+		 * @param {function} callback - коллбек
+		 */
+		on (type, callback) {
+			this.el.addEventListener(type, callback);
 		}
 
 		/**
 		 * Взять данные формы
 		 * @return {object}
 		 */
-		getFormData() {
-			let form = this._el.querySelector('form');
+		getFormData () {
+			let form = this.el.querySelector('form');
 			let elements = form.elements;
 			let fields = {};
 

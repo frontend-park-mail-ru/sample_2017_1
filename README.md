@@ -9,5 +9,8 @@ $ npm install
 Для запуска:
 
 1. `npm start`
-1. `npm pug`
 2. `http://localhost:3000/`
+
+Пересобрать шаблоны:
+
+1. `npm run pug`

@@ -1,10 +1,10 @@
 'use strict';
 
 (function () {
-	let loginPage = document.querySelector('.js-login');
-	let chatPage = document.querySelector('.js-chat');
+	let loginPage = document.querySelector('#login');
+	let chatPage = document.querySelector('#chat');
 
-	let form = new Form({
+	let loginForm = new Form({
 			el: document.createElement('div'),
 			data: {
 				title: 'Login',
@@ -33,27 +33,54 @@
 			el: document.createElement('div'),
 		});
 
-		form.on('submit', event => {
+		loginForm.on('submit', event => {
 			event.preventDefault();
 
-			let formData = form.getFormData();
-			technolibs.request('/api/login', formData);
+			let formData = loginForm.getFormData();
 
 			chat.set({
 				username: formData.user,
-				email: formData.email
+				email: formData.email,
+				messages: [],
 			})
 			.render();
-
-			chat.subscribe();
 
 			loginPage.hidden = true;
 			chatPage.hidden = false;
 		});
 
-		loginPage.appendChild(form.el);
+		let chatForm = new Form({
+			el: document.createElement('div'),
+			data: {
+				fields: [
+					{
+						name: 'message',
+						type: 'text',
+						placeholder: 'Ваше сообщение'
+					}
+				],
+				controls: [
+					{
+						text: 'Отправить',
+						attrs: {
+							type: 'submit'
+						}
+					}
+				]
+			}
+		});
+		chatForm.on('submit', (event) => {
+			event.preventDefault();
+			let data = chatForm.getFormData();
+
+			chat.sendMessage(data.message);
+		});
+
+		loginPage.appendChild(loginForm.el);
 		chatPage.appendChild(chat.el);
+		chatPage.appendChild(chatForm.el);
 
 		loginPage.hidden = false;
+		chatPage.hidden = true;
 
 })()
