@@ -3,7 +3,7 @@
 
 	// import
 	// form, button
-	const tmpl = window.chat_tmpl;
+	// const tmpl = window.chat_tmpl;
 
 	class Chat {
 
@@ -50,7 +50,10 @@
 		 * @param {Object} data
 		 */
 		_updateHtml (data) {
-			this.el.innerHTML = tmpl(data);
+			this.el.innerHTML = `
+				<div id="jsMessages" class="chat">
+				</div>	
+			`;
 		}
 
 		/**
