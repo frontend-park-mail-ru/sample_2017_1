@@ -7,73 +7,11 @@
 	class Form {
 
 		/**
-		 * Конструктор класса Form
- 		 */
-		constructor (options = { data: {} }) {
-			this.data = options.data;
-			this.el = options.el;
-
-			this.render();
-		}
-
-		render () {
-			this._updateHtml()
-			this._installControls();
-		}
-
-		/**
-		 * Вернуть поля формы
-		 * @return {string}
-		 */
-		_getFields () {
-			let { fields = [] } = this.data;
-
-			return fields.map(field => { return `<input type="text" name="${field.name}">` }).join(' ');
-		}
-
-		/**
-		 * Обновить html компонента
-		 */
-		_updateHtml () {
-			this.el.innerHTML = `
-				<form>
-					<h1>${this.data.title || ''}</h1>
-					<div>
-						${this._getFields()}
-					</div>
-					<div class="js-controls">
-					</div>
-				<form>
-			`;
-		}
-
-		/**
-		 * Вставить управляющие элементы в форму
-		 */
-		_installControls () {
-			let { controls = [] } = this.data;
-
-			controls.forEach(data => {
-				let control = new Button(data).render();
-				this.el.querySelector('.js-controls').appendChild(control.el);
-			});
-		}
-
-		/**
-		 * Подписка на событие
-		 * @param {string} type - имя события
-		 * @param {function} callback - коллбек
-		 */
-		on (type, callback) {
-			this.el.addEventListener(type, callback);
-		}
-
-		/**
 		 * Взять данные формы
 		 * @return {object}
 		 */
 		getFormData () {
-			let form = this.el.querySelector('form');
+			let form = this.el;
 			let elements = form.elements;
 			let fields = {};
 
@@ -89,6 +27,38 @@
 			});
 
 			return fields;
+		}
+
+		constructor(options) {
+			this.attrs = options.attrs;
+			this.fields = options.fields;
+			this.controls = options.controls;
+			this.el = document.createElement('form');
+		}
+
+		renderFields() {
+			return this.fields.reduce((prev, attrs) => {
+				let attrsString = Object.keys(attrs).map((attrName) => {
+					return `${attrName}="${attrs[attrName]}"`;
+				}).join(' ');
+				return prev + `<input ${attrsString}/>`
+			}, '');
+		}
+
+		render() {
+			let fields = this.renderFields();
+			this.el.innerHTML = fields;
+
+			let controls = this.controls.forEach((control) => {
+				let button = new Button(control);
+				button.render();
+
+				this.el.appendChild(button.el);
+			});
+		}
+
+		on(name, callback) {
+			this.el.addEventListener(name, callback);
 		}
 
 	}

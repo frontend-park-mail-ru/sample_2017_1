@@ -15,7 +15,8 @@
 		}
 
 		render () {
-
+			this.el.innerText = this.text;
+			this.setAttrs(this.attrs);
 		}
 
 		toString () {

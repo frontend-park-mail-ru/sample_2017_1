@@ -52,7 +52,8 @@
 		_updateHtml (data) {
 			this.el.innerHTML = `
 				<div id="jsMessages" class="chat">
-				</div>	
+					<h3>Привет, ${data.login}</h3>
+				</div>
 			`;
 		}
 
@@ -64,16 +65,16 @@
 		 */
 		_createMessage (opts, isMy = false) {
 			let message = document.createElement('div');
-			let email = document.createElement('div');
+			let login = document.createElement('div');
 
 			message.classList.add('chat__message');
-			email.classList.add('chat__email');
+			login.classList.add('chat__email');
 
 			message.classList.add('chat__message_my');
 
 			message.innerHTML = opts.message;
-			email.innerHTML = opts.email;
-			message.appendChild(email);
+			login.innerHTML = opts.login;
+			message.appendChild(login);
 
 			return message;
 		}
@@ -93,7 +94,7 @@
 			messages.innerHTML = '';
 
 			items.forEach(item => {
-				let message = this._createMessage(item, item.email === this.data.email);
+				let message = this._createMessage(item, item.login === this.data.login);
 				messages.appendChild(message);
 			});
 
@@ -101,7 +102,7 @@
 		}
 
 		sendMessage (message) {
-			this.data.messages.push({message, email: this.data.email});
+			this.data.messages.push({message, login: this.data.login});
 			this._renderMessages(this.data.messages);
 		}
 	}
