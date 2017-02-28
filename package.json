@@ -4,7 +4,8 @@
   "description": "Sample",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "npm run pug && node server.js",
+    "pug": "./node_modules/.bin/pug -c -D -E pug.js -n chat_tmpl static/blocks/**/*.pug"
   },
   "repository": {
     "type": "git",
@@ -13,7 +14,8 @@
   "keywords": [],
   "author": "",
   "homepage": "https://github.com/frontend-park-mail-ru/sample#readme",
-  "dependencies": {
-    "express": "^4.14.1"
+  "devDependencies": {
+    "pug": "^2.0.0-beta11",
+    "pug-cli": "^1.0.0-alpha6"
   }
 }

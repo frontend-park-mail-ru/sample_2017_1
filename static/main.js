@@ -1,59 +1,86 @@
 'use strict';
 
-// Получаем ссылки на элементы страницы
-const page1 = document.getElementById('page1');
-const page2 = document.getElementById('page2');
+(function () {
+	let loginPage = document.querySelector('#login');
+	let chatPage = document.querySelector('#chat');
 
-// Элементы page#1
-const button = document.getElementById('button');
-const input = document.getElementById('input');
-const header = document.getElementById('header');
+	let loginForm = new Form({
+			el: document.createElement('div'),
+			data: {
+				title: 'Login',
+				fields: [
+					{
+						name: 'user',
+						type: 'text'
+					},
+					{
+						name: 'email',
+						type: 'email'
+					}
+				],
+				controls: [
+					{
+						text: 'Войти',
+						attrs: {
+							type: 'submit'
+						}
+					}
+				]
+			}
+		});
 
-// Элементы page#2
-const messageInput = document.getElementById('message');
-const sendMessage = document.querySelector('input[type=submit]');
-const messages = document.getElementById('messages');
+		let chat = new Chat({
+			el: document.createElement('div'),
+		});
 
-// Скрываем вторую страницу
-page2.hidden = true;
+		loginForm.on('submit', event => {
+			event.preventDefault();
 
-// Заводим переменную под имя пользователя
-let myName = null;
+			let formData = loginForm.getFormData();
 
-// Добавляем обработчик события на кнопку "логина"
-button.addEventListener('click', function (event) {
-	// По клику на кнопу получаем введённое имя
-	const name = input.value;
-	myName = name;
+			chat.set({
+				username: formData.user,
+				email: formData.email,
+				messages: [],
+			})
+			.render();
 
-	// Обновляем заголовок
-	header.textContent = `Привет, ${name}!`;
+			loginPage.hidden = true;
+			chatPage.hidden = false;
+		});
 
-	// Переключаем страницы
-	page1.hidden = true;
-	page2.hidden = false;
-});
+		let chatForm = new Form({
+			el: document.createElement('div'),
+			data: {
+				fields: [
+					{
+						name: 'message',
+						type: 'text',
+						placeholder: 'Ваше сообщение'
+					}
+				],
+				controls: [
+					{
+						text: 'Отправить',
+						attrs: {
+							type: 'submit'
+						}
+					}
+				]
+			}
+		});
+		chatForm.on('submit', (event) => {
+			event.preventDefault();
+			let data = chatForm.getFormData();
 
-// Добавляем обработчик события на кнопку "отправки сообщения"
-sendMessage.addEventListener('click', function (event) {
-	const messageContentText = messageInput.value;
-	const messageFromText = `Сообщение от ${myName} (${new Date().toLocaleTimeString('ru-RU')})`;
+			chat.sendMessage(data.message);
+		});
 
-	// Создаём новый элемент
-	const newMessageElement = document.createElement('li');
-	const newMessageFromElement = document.createElement('span');
-	const newMessageContentElement = document.createElement('blockquote');
+		loginPage.appendChild(loginForm.el);
+		chatPage.appendChild(chat.el);
+		chatPage.appendChild(chatForm.el);
 
-	newMessageElement.classList.add('message-item');
-	newMessageFromElement.classList.add('from');
+		loginPage.hidden = false;
+		chatPage.hidden = true;
 
-	newMessageFromElement.textContent = messageFromText;
-	newMessageContentElement.textContent = messageContentText;
-
-	newMessageElement.appendChild(newMessageFromElement);
-	newMessageElement.appendChild(newMessageContentElement);
-
-	// Добавляем его на страницу
-	messages.appendChild(newMessageElement);
-	messageInput.value = '';
-});
+})()
