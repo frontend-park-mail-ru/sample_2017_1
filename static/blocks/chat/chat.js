@@ -9,11 +9,10 @@
 
 		/**
 		 * Конструктор класса Chat
-		 * @param {Object} params
-		 * @param {Object} params.data
-		 * @param {HTMLElement} params.el
- 		 */
-		constructor ({ data = {}, el }) {
+		 * @param {Object} data
+		 * @param {HTMLElement} el
+		 */
+		constructor({data = {}, el}) {
 			this.data = data;
 			this.el = el;
 		}
@@ -21,7 +20,7 @@
 		/**
 		 * Обновляем состояние DOM, не теряем обработчики событий
 		 */
-		render () {
+		render() {
 			this._updateHtml(this.data);
 			this._renderMessages(this.data.messages);
 		}
@@ -30,9 +29,21 @@
 		 * Обновить данные компонента
 		 * @param {Object} data - данные компонента
 		 */
-		set (data) {
+		set(data) {
 			this.data = data;
-
+			this.data.messages = [
+				{
+					text: 'Привет',
+					email: 'a.b@c.d',
+					login: 'KEKEKE',
+					timestamp: Date.now()-100000
+				}, {
+					text: 'Как дела?',
+					email: 'yty.b@c.d',
+					login: 'kekekLol',
+					timestamp: Date.now()-8000
+				}
+			];
 			return this;
 		}
 
@@ -40,7 +51,7 @@
 		 * Интегрируем копонент в DOM
 		 * @param {HTMLElement} el
 		 */
-		install (el) {
+		install(el) {
 			el.appendChild(this.el);
 		}
 
@@ -49,57 +60,74 @@
 		 * @private
 		 * @param {Object} data
 		 */
-		_updateHtml (data) {
+		_updateHtml(data) {
 			this.el.innerHTML = tmpl(data);
 		}
 
 		/**
 		 * Создаем элемент одного сообщения
 		 * @private
-		 * @param {Object} opts
-		 * @param {boolean} isMy
+		 * @param {String} text - текст сообщения
+		 * @param {String} login - имя отправителя
+		 * @param {String} email - email отправителя
+		 * @param {Number} timestamp - дата отправки
+		 * @param {Boolean} isMy - принадлежность сообщения
+		 * @returns {Element}
 		 */
-		_createMessage (opts, isMy = false) {
-			let message = document.createElement('div');
-			let email = document.createElement('div');
+		static createMessage({text, login, email, timestamp}, isMy = false) {
+			const messageContentText = text;
+			const messageFromText = `Сообщение от ${login} (${new Date(timestamp).toLocaleTimeString('ru-RU')})`;
 
-			message.classList.add('chat__message');
-			email.classList.add('chat__email');
+			// Создаём новый элемент
+			const newMessageElement = document.createElement('li');
+			const newMessageFromElement = document.createElement('span');
+			const newMessageContentElement = document.createElement('blockquote');
+			const clearfixElement = document.createElement('div');
 
-			message.classList.add('chat__message_my');
+			newMessageElement.classList.add('chat__message');
+			if (isMy) {
+				newMessageElement.classList.add('chat__message_my');
+			}
+			newMessageFromElement.classList.add('from');
+			clearfixElement.classList.add('clearfix');
 
-			message.innerHTML = opts.message;
-			email.innerHTML = opts.email;
-			message.appendChild(email);
+			newMessageFromElement.textContent = messageFromText;
+			newMessageContentElement.textContent = messageContentText;
 
-			return message;
+			newMessageElement.appendChild(newMessageFromElement);
+			newMessageElement.appendChild(clearfixElement);
+			newMessageElement.appendChild(newMessageContentElement);
+
+			return newMessageElement;
 		}
 
 		/**
 		 * Обновляем HTML сообщений
-		 * @private
-		 * @param {Object} opts
-		 * @param {boolean} isMy
 		 */
-		_renderMessages (items) {
-			if (!items.length) {
+		_renderMessages() {
+			if (!this.data.messages.length) {
 				return;
 			}
 
 			let messages = this.el.querySelector('#jsMessages');
 			messages.innerHTML = '';
 
-			items.forEach(item => {
-				let message = this._createMessage(item, item.email === this.data.email);
+			this.data.messages.forEach(item => {
+				let message = Chat.createMessage(item, item.email === this.data.email);
 				messages.appendChild(message);
 			});
 
 			messages.scrollTop = messages.scrollHeight;
 		}
 
-		sendMessage (message) {
-			this.data.messages.push({message, email: this.data.email});
-			this._renderMessages(this.data.messages);
+		sendMessage(message) {
+			this.data.messages.push({
+				text: message,
+				email: this.data.email,
+				login: this.data.username,
+				timestamp: Date.now()
+			});
+			this._renderMessages();
 		}
 	}
 

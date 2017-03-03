@@ -5,82 +5,89 @@
 	let chatPage = document.querySelector('#chat');
 
 	let loginForm = new Form({
-			el: document.createElement('div'),
-			data: {
-				title: 'Login',
-				fields: [
-					{
-						name: 'user',
-						type: 'text'
-					},
-					{
-						name: 'email',
-						type: 'email'
+		el: document.createElement('div'),
+		data: {
+			title: 'Login',
+			fields: [
+				{
+					name: 'user',
+					type: 'text',
+					placeholder: 'Логин'
+				},
+				{
+					name: 'email',
+					type: 'email',
+					placeholder: 'E-mail'
+				}
+			],
+			controls: [
+				{
+					text: 'Войти',
+					attrs: {
+						type: 'submit'
 					}
-				],
-				controls: [
-					{
-						text: 'Войти',
-						attrs: {
-							type: 'submit'
-						}
-					}
-				]
-			}
-		});
+				}
+			]
+		}
+	});
 
-		let chat = new Chat({
-			el: document.createElement('div'),
-		});
+	let chat = new Chat({
+		el: document.createElement('div'),
+	});
 
-		loginForm.on('submit', event => {
-			event.preventDefault();
+	loginForm.on('submit', event => {
+		event.preventDefault();
 
-			let formData = loginForm.getFormData();
+		let formData = loginForm.getFormData();
 
-			chat.set({
+		chat
+			.set({
 				username: formData.user,
 				email: formData.email,
 				messages: [],
 			})
 			.render();
 
-			loginPage.hidden = true;
-			chatPage.hidden = false;
-		});
+		loginPage.hidden = true;
+		chatPage.hidden = false;
+	});
 
-		let chatForm = new Form({
-			el: document.createElement('div'),
-			data: {
-				fields: [
-					{
-						name: 'message',
-						type: 'text',
-						placeholder: 'Ваше сообщение'
+	let chatForm = new Form({
+		el: document.createElement('div'),
+		data: {
+			fields: [
+				{
+					name: 'message',
+					type: 'text',
+					placeholder: 'Ваше сообщение'
+				}
+			],
+			controls: [
+				{
+					text: 'Отправить',
+					attrs: {
+						type: 'submit'
 					}
-				],
-				controls: [
-					{
-						text: 'Отправить',
-						attrs: {
-							type: 'submit'
-						}
-					}
-				]
-			}
-		});
-		chatForm.on('submit', (event) => {
-			event.preventDefault();
-			let data = chatForm.getFormData();
+				}
+			]
+		}
+	});
+	chatForm.on('submit', (event) => {
+		event.preventDefault();
+		let data = chatForm.getFormData();
+		const form = chatForm.el.getElementsByTagName('form');
+		if (form[0]) {
+			form[0].reset();
+		}
 
-			chat.sendMessage(data.message);
-		});
+		chat.sendMessage(data.message);
+	});
 
-		loginPage.appendChild(loginForm.el);
-		chatPage.appendChild(chat.el);
-		chatPage.appendChild(chatForm.el);
+	loginPage.appendChild(loginForm.el);
+	chatPage.appendChild(chat.el);
+	chatPage.appendChild(chatForm.el);
 
-		loginPage.hidden = false;
-		chatPage.hidden = true;
+	loginPage.hidden = false;
+	chatPage.hidden = true;
 
-})()
+})();

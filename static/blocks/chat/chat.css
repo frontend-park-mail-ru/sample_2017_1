@@ -6,35 +6,40 @@
 	padding: 1vw;
 }
 
+.clearfix {
+	clear: both;
+}
+
 	.chat__message {
-		font-size: 20px;
-	    padding: 1vw;
-	    border-radius: 15px;
-	    background-color: #bdbdbd;
-	    margin: 0.5vw 0;
-		margin-right: 5vw;
-		word-wrap: break-word;
+		width: 80%;
+		margin-right: 19%;
+		line-height: normal;
+		list-style: none;
 	}
 
+		.chat__message .from {
+			font-size: 1.2rem;
+		}
+
+		.chat__message blockquote {
+			border-left: 0.3rem solid #d1d1d1;
+			margin-left: 3rem;
+			margin-right: 0;
+			padding: 0 1.5rem;
+			margin-bottom: 0;
+			margin-top: 0.5rem;
+			font-size: 1.8rem;
+		}
+
 	.chat__message_my {
-		background-color: #0e751f;
-		color: #bdbdbd;
-		margin-right: 0;
-		margin-left: 5vw;
-		text-align: right;
+		width: 80%;
+		margin-left: 19%;
 	}
+
+		.chat__message_my .from {
+			float: right;
+		}
 
 	.chat__input {
 		font-size: 24px;
-	}
-
-	.chat__email {
-		text-align: right;
-	    font-size: 10px;
-	    color: #000;
-	}
-
-	.chat__message_my .chat__email {
-		text-align: left;
-		color: #fff;
 	}
