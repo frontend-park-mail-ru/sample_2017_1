@@ -99,8 +99,11 @@
 					}
 				}
 			};
-
-			xhr.send(JSON.stringify(body));
+			if (body) {
+				xhr.send(JSON.stringify(body));
+			} else {
+				xhr.send(null);
+			}
 		}
 	}
 
