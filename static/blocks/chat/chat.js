@@ -31,19 +31,20 @@
 		 */
 		set(data) {
 			this.data = data;
-			this.data.messages = [
-				{
-					text: 'Привет',
-					email: 'a.b@c.d',
-					login: 'KEKEKE',
-					timestamp: Date.now()-100000
-				}, {
-					text: 'Как дела?',
-					email: 'yty.b@c.d',
-					login: 'kekekLol',
-					timestamp: Date.now()-8000
-				}
-			];
+			// this.data.messages = [
+			// 	{
+			// 		text: 'Привет',
+			// 		email: 'a.b@c.d',
+			// 		login: 'KEKEKE',
+			// 		timestamp: Date.now()-100000
+			// 	}, {
+			// 		text: 'Как дела?',
+			// 		email: 'ab@c.d',
+			// 		login: 'kekekLol',
+			// 		timestamp: Date.now()-8000
+			// 	}
+			// ];
+
 			return this;
 		}
 
