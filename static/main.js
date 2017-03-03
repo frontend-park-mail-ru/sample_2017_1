@@ -1,6 +1,13 @@
-'use strict';
-
 (function () {
+	'use strict';
+
+	const Form = window.Form;
+	const Chat = window.Chat;
+	const HTTP = window.HTTP;
+
+	const http = new HTTP();
+	http.BaseURL = 'https://sample-backend.herokuapp.com/api';
+
 	let loginPage = document.querySelector('#login');
 	let chatPage = document.querySelector('#chat');
 
@@ -89,5 +96,7 @@
 
 	loginPage.hidden = false;
 	chatPage.hidden = true;
+
+	http.get('/messages', null, ({responseText}) => console.log(responseText));
 
 })();
