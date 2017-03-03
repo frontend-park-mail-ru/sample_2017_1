@@ -7,6 +7,7 @@
 
 	const http = new HTTP();
 	http.BaseURL = 'https://sample-backend.herokuapp.com/api';
+	// http.BaseURL = 'http://localhost:3001/api';
 
 	let loginPage = document.querySelector('#login');
 	let chatPage = document.querySelector('#chat');
@@ -49,11 +50,13 @@
 
 		chat
 			.set({
-				username: formData.user,
+				login: formData.user,
 				email: formData.email,
 				messages: [],
 			})
 			.render();
+
+		chat.updateMessages();
 
 		loginPage.hidden = true;
 		chatPage.hidden = false;

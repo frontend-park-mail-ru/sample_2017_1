@@ -64,9 +64,6 @@
 		}
 
 		post(address, body = null, callback = null) {
-			if (!ALLOWED_METHODS.includes(method.toUpperCase())) {
-				throw new TypeError(`method должен быть одним из списка: ${ALLOWED_METHODS.join(', ')}`);
-			}
 			const xhr = new XMLHttpRequest();
 			xhr.withCredentials = true;
 			let url = `${this._baseUrl}${address}`;
@@ -87,9 +84,6 @@
 		}
 
 		delete(address, body = null, callback = null) {
-			if (!ALLOWED_METHODS.includes(method.toUpperCase())) {
-				throw new TypeError(`method должен быть одним из списка: ${ALLOWED_METHODS.join(', ')}`);
-			}
 			const xhr = new XMLHttpRequest();
 			xhr.withCredentials = true;
 			let url = `${this._baseUrl}${address}`;

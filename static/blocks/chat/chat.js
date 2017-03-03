@@ -4,9 +4,9 @@
 	// import
 	// form, button
 	const tmpl = window.chat_tmpl;
+	const ChatService = window.ChatService;
 
 	class Chat {
-
 		/**
 		 * Конструктор класса Chat
 		 * @param {Object} data
@@ -15,6 +15,9 @@
 		constructor({data = {}, el}) {
 			this.data = data;
 			this.el = el;
+
+			this.chatService = new ChatService();
+			this.updateMessages();
 		}
 
 		/**
@@ -108,13 +111,16 @@
 		}
 
 		sendMessage(message) {
-			this.data.messages.push({
-				text: message,
-				email: this.data.email,
-				login: this.data.username,
-				timestamp: Date.now()
+			this.chatService.sendMessage(message, this.data.login, this.data.email, response => {
+				this.updateMessages();
 			});
-			this._renderMessages();
+		}
+
+		updateMessages() {
+			this.chatService.getMessages(messages => {
+				this.data.messages = messages;
+				this.render();
+			});
 		}
 	}
 
