@@ -5,7 +5,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const BASE_PATH = 'static'
+const BASE_PATH = 'static';
 
 // Создаём фукнцию-обработчик запросов
 const worker = function (request, response) {
