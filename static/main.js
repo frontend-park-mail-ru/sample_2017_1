@@ -117,8 +117,6 @@
 		})
 		.then(response => {
 			return response.json();
-
-
 		})
 		.then(json => {
 			console.log('FETCH says:', json);
