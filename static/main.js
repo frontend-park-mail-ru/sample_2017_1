@@ -100,6 +100,30 @@
 	loginPage.hidden = false;
 	chatPage.hidden = true;
 
-	http.get('/messages', null, ({responseText}) => console.log(responseText));
+	http
+		.getPromise('/messages', null)
+		.then(xhr => {
+			const id = 'lalala';
+			console.log(`Статус = ${xhr.status}, ответ = ${xhr.responseText}`);
+			return http.getPromise('/api/messages/' + id, null);
+		})
+		.then(xhr => {
+			console.log(`Статус = ${xhr.status}`);
+		});
+
+	window
+		.fetch('https://sample-backend.herokuapp.com/api/messages', {
+			method: 'get',
+			mode: 'cors'
+		})
+		.then(response => {
+			return response.json();
+
+
+		})
+		.then(json => {
+			console.log('FETCH says:', json);
+
+		})
 
 })();

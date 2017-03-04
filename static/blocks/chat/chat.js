@@ -111,9 +111,7 @@
 		}
 
 		sendMessage(message) {
-			this.chatService.sendMessage(message, this.data.login, this.data.email, response => {
-				this.updateMessages();
-			});
+			this.chatService.sendMessage(message, this.data.login, this.data.email, response => this.updateMessages());
 		}
 
 		updateMessages() {
