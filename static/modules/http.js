@@ -30,12 +30,12 @@
 			this._headers = value;
 		}
 
-		set BaseURL(value) {
-			this._baseUrl = value;
-		}
-
 		get BaseURL() {
 			return this._baseUrl;
+		}
+
+		set BaseURL(value) {
+			this._baseUrl = value;
 		}
 
 		get(address, query = null, callback = null) {
@@ -80,7 +80,11 @@
 				}
 			};
 
-			xhr.send(JSON.stringify(body));
+			if (body) {
+				xhr.send(JSON.stringify(body));
+			} else {
+				xhr.send(null);
+			}
 		}
 
 		put(address, body = null, callback = null) {
@@ -100,7 +104,11 @@
 				}
 			};
 
-			xhr.send(JSON.stringify(body));
+			if (body) {
+				xhr.send(JSON.stringify(body));
+			} else {
+				xhr.send(null);
+			}
 		}
 
 		delete(address, body = null, callback = null) {
@@ -126,7 +134,6 @@
 			}
 		}
 
-
 		getPromise(address, query = null) {
 			return new Promise(function (resolve, reject) {
 
@@ -148,7 +155,6 @@
 
 			}.bind(this));
 		}
-
 	}
 
 	window.HTTP = HTTP;
