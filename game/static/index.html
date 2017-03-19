@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Game</title>
+	<link rel="stylesheet" href="/reset.css">
+	<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+	<div id="greet" class="view-element"></div>
+	<div id="wait" class="view-element"></div>
+	<div id="game" class="view-element"></div>
+	<div id="finish" class="view-element"></div>
+
+
+
+	<script src="modules/ControllersManager.js"></script>
+	<script src="modules/Mediator.js"></script>
+
+	<script src="transports/MagicTransport.js"></script>
+
+	<script src="game-modules/GameManager.js"></script>
+	<script src="game-modules/GameScene.js"></script>
+	<script src="game-modules/GameStrategy.js"></script>
+	<script src="game-modules/game-strategies/SinglePlayerStrategy.js"></script>
+	<script src="game-modules/game-strategies/MultiPlayerStrategy.js"></script>
+	<script src="game-modules/Game.js"></script>
+
+	<script src="views/View.js"></script>
+	<script src="views/GreetView.js"></script>
+	<script src="views/WaitView.js"></script>
+	<script src="views/GameView.js"></script>
+	<script src="views/FinishView.js"></script>
+
+	<script src="Application.js"></script>
+	<script src="main.js"></script>
+</body>
+</html>
