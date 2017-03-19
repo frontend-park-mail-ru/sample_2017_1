@@ -40,7 +40,42 @@ window.Application = (function (global) {
 				})
 			}.bind(this);
 
+			this.game = null;
+			this.opts = null;
+
+
 			this.subscribe(Mediator.MODE_CHOOSED, 'onGreet');
+			this.subscribe(Mediator.DESTROY_APP, 'destroy');
+			this.subscribe(Mediator.WAITING_FOR_OPPONENT, 'waitOpponent');
+			this.subscribe(Mediator.START_THE_GAME, 'startGame');
+		}
+
+		start() {
+			this.views.greet.show();
+		}
+
+		waitOpponent() {
+			this.views.greet.hide();
+			this.views.greet.destroy();
+			delete this.views.greet;
+
+			this.views.wait.show();
+		}
+
+		startGame() {
+
+		}
+
+		onGreet(event) {
+			const gamemode = (event.mode || '').toUpperCase();
+			const username = (event.username || '').toUpperCase();
+			if (gamemode && STRATEGIES[gamemode]) {
+				const Strategy = STRATEGIES[gamemode];
+				this.opts = {Strategy, username};
+				this.game = new Game(Strategy, username);
+				this.unsubscribe(Mediator.MODE_CHOOSED);
+				this.waitOpponent();
+			}
 		}
 
 		subscribe(event, callbackName) {
@@ -53,19 +88,12 @@ window.Application = (function (global) {
 			mediator.off(event, this.mediatorCallback);
 		}
 
-		start() {
-			this.views.greet.show();
-			// mediator.on()
-		}
-
-		onGreet(event) {
-			console.dir(event);
-
-		}
-
 		destroy() {
 			this._subscribed.forEach(data => this.mediator.off(data.name, this.mediatorCallback));
 			this._subscribed = null;
+			this.game.stop();
+			this.game.destroy();
+			this.game = null;
 		}
 	}
 

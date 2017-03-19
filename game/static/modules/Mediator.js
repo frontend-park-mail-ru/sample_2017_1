@@ -3,7 +3,7 @@ window.Mediator = (function (global) {
 
 	/**
 	 * Медиатор (Event Bus)
-	 * @exports global
+	 * @global
 	 * @class Mediator
 	 */
 	class Mediator {
@@ -57,6 +57,27 @@ window.Mediator = (function (global) {
 	 * @type {string}
 	 */
 	Mediator.MODE_CHOOSED = 'MODE_CHOOSED';
+
+	/**
+	 * Имя события "Поиск оппонента в игре по сети"
+	 * @const
+	 * @type {string}
+	 */
+	Mediator.WAITING_FOR_OPPONENT = 'WAITING_FOR_OPPONENT';
+
+	/**
+	 * Имя события "Старт игры"
+	 * @const
+	 * @type {string}
+	 */
+	Mediator.START_THE_GAME = 'START_THE_GAME';
+
+	/**
+	 * Имя события "Завершение работы приложения"
+	 * @const
+	 * @type {string}
+	 */
+	Mediator.DESTROY_APP = 'DESTROY_APP';
 
 
 	return Mediator;

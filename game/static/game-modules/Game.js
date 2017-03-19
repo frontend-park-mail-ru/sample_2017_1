@@ -6,14 +6,22 @@ window.Game = (function (global) {
 
 	const mediator = new Mediator;
 
+	/**
+	 * @global
+	 * @class Game
+	 */
 	class Game {
 		/**
 		 * @param {GameStrategy} Strategy - реализация игровой стратегии
+		 * @param {String} username - имя пользователя
 		 */
-		constructor(Strategy) {
-			if (!(Strategy instanceof GameStrategy)) {
+		constructor(Strategy, username) {
+			if (!(Strategy.prototype instanceof GameStrategy)) {
 				throw new TypeError('Strategy is not a GameStrategy');
 			}
+
+			this.Strategy = Strategy;
+			this.username = username;
 		}
 	}
 

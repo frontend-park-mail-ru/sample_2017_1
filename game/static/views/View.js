@@ -33,6 +33,7 @@ window.View = (function (global) {
 			if (this._destroyed) {
 				return;
 			}
+			this.hide();
 			document.body.removeChild(this._el);
 			this._el = null;
 			this._destroyed = true;
