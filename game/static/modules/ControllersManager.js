@@ -1,4 +1,4 @@
-window.ControllersManager = (function (global) {
+window.ControllersManager = (function (window) {
 
 	class ControllersManager {
 		constructor() {

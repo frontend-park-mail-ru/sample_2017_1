@@ -1,6 +1,6 @@
-window.SinglePlayerStrategy = (function (global) {
-	const Mediator = global.Mediator;
-	const GameStrategy = global.GameStrategy;
+window.SinglePlayerStrategy = (function (window) {
+	const Mediator = window.Mediator;
+	const GameStrategy = window.GameStrategy;
 
 	const mediator = new Mediator;
 

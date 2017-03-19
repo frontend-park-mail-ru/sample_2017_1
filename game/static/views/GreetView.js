@@ -1,5 +1,5 @@
-window.GreetView = (function (global) {
-	const View = global.View;
+window.GreetView = (function (window) {
+	const View = window.View;
 
 	class GreetView extends View {
 		constructor() {

@@ -1,8 +1,8 @@
-window.Game = (function (global) {
-	const Mediator = global.Mediator;
-	const GameStrategy = global.GameStrategy;
-	const GameManager = global.GameManager;
-	const GameScene = global.GameScene;
+window.Game = (function (window) {
+	const Mediator = window.Mediator;
+	const GameStrategy = window.GameStrategy;
+	const GameManager = window.GameManager;
+	const GameScene = window.GameScene;
 
 	const mediator = new Mediator;
 

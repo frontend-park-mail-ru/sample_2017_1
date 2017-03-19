@@ -1,5 +1,5 @@
-window.MagicTransport = (function (global) {
-	const Mediator = global.Mediator;
+window.MagicTransport = (function (window) {
+	const Mediator = window.Mediator;
 
 	class MagicTransport {
 		constructor() {

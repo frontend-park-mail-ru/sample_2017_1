@@ -1,5 +1,5 @@
-window.FinishView = (function (global) {
-	const View = global.View;
+window.FinishView = (function (window) {
+	const View = window.View;
 
 	class FinishView extends View {
 		constructor() {

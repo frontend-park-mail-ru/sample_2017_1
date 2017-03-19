@@ -1,5 +1,5 @@
-window.GameManager = (function (global) {
-	const Mediator = global.Mediator;
+window.GameManager = (function (window) {
+	const Mediator = window.Mediator;
 
 	const mediator = new Mediator;
 

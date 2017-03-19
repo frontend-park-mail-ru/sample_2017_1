@@ -1,5 +1,5 @@
-window.GameView = (function (global) {
-	const View = global.View;
+window.GameView = (function (window) {
+	const View = window.View;
 
 	class GameView extends View {
 		constructor() {

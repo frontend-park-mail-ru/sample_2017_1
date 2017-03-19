@@ -1,7 +1,7 @@
-(function (global) {
-	const Application = global.Application;
-	const Mediator = global.Mediator;
-	const MagicTransport = global.MagicTransport;
+(function (window) {
+	const Application = window.Application;
+	const Mediator = window.Mediator;
+	const MagicTransport = window.MagicTransport;
 
 	Mediator.initialize();
 	MagicTransport.initialize();

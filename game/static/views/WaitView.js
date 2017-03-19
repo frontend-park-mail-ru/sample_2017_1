@@ -1,5 +1,5 @@
-window.WaitView = (function (global) {
-	const View = global.View;
+window.WaitView = (function (window) {
+	const View = window.View;
 
 	class WaitView extends View {
 		constructor() {

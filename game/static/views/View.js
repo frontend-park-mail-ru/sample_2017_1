@@ -1,5 +1,5 @@
-window.View = (function (global) {
-	const Mediator = global.Mediator;
+window.View = (function (window) {
+	const Mediator = window.Mediator;
 
 	class View {
 		constructor() {

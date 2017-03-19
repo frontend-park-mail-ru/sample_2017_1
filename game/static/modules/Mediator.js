@@ -1,5 +1,5 @@
-window.Mediator = (function (global) {
-	const EventEmitter2 = global.EventEmitter2;
+window.Mediator = (function (window) {
+	const EventEmitter2 = window.EventEmitter2;
 
 	/**
 	 * Медиатор (Event Bus)

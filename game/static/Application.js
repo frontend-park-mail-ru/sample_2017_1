@@ -1,16 +1,16 @@
-window.Application = (function (global) {
-	const Mediator = global.Mediator;
-	const FinishView = global.FinishView;
-	const GameView = global.GameView;
-	const GreetView = global.GreetView;
-	const WaitView = global.WaitView;
-	const MultiPlayerStrategy = global.MultiPlayerStrategy;
-	const SinglePlayerStrategy = global.SinglePlayerStrategy;
-	const Game = global.Game;
+window.Application = (function (window) {
+	const Mediator = window.Mediator;
+	const FinishView = window.FinishView;
+	const GameView = window.GameView;
+	const GreetView = window.GreetView;
+	const WaitView = window.WaitView;
+	const MultiPlayerStrategy = window.MultiPlayerStrategy;
+	const SinglePlayerStrategy = window.SinglePlayerStrategy;
+	const Game = window.Game;
 
 	const STRATEGIES = {
-		SINGLE: global.SinglePlayerStrategy,
-		MULTI: global.MultiPlayerStrategy,
+		SINGLE: SinglePlayerStrategy,
+		MULTI: MultiPlayerStrategy,
 	};
 
 	const mediator = new Mediator;
