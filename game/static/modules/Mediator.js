@@ -73,6 +73,13 @@ window.Mediator = (function (window) {
 	Mediator.START_THE_GAME = 'START_THE_GAME';
 
 	/**
+	 * Имя события "Завершение игры"
+	 * @const
+	 * @type {string}
+	 */
+	Mediator.FINISH_THE_GAME = 'FINISH_THE_GAME';
+
+	/**
 	 * Имя события "Завершение работы приложения"
 	 * @const
 	 * @type {string}

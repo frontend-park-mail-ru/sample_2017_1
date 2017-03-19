@@ -44,17 +44,18 @@ window.Application = (function (window) {
 			this.opts = null;
 
 
+			this.subscribe(Mediator.WAITING_FOR_OPPONENT, 'waitOpponent');
+			this.subscribe(Mediator.FINISH_THE_GAME, 'finishGame');
+			this.subscribe(Mediator.START_THE_GAME, 'startGame');
 			this.subscribe(Mediator.MODE_CHOOSED, 'onGreet');
 			this.subscribe(Mediator.DESTROY_APP, 'destroy');
-			this.subscribe(Mediator.WAITING_FOR_OPPONENT, 'waitOpponent');
-			this.subscribe(Mediator.START_THE_GAME, 'startGame');
 		}
 
 		start() {
 			this.views.greet.show();
 		}
 
-		waitOpponent() {
+		waitOpponent(payload) {
 			this.views.greet.hide();
 			this.views.greet.destroy();
 			delete this.views.greet;
@@ -62,13 +63,23 @@ window.Application = (function (window) {
 			this.views.wait.show();
 		}
 
-		startGame() {
+		startGame(payload) {
 
 		}
 
-		onGreet(event) {
-			const gamemode = (event.mode || '').toUpperCase();
-			const username = (event.username || '').toUpperCase();
+		finishGame(payload) {
+			const verdict = payload.verdict;
+
+			this.views.game.hide();
+			this.views.game.destroy();
+			delete this.views.game;
+
+			this.views.finish.show(verdict && {verdict});
+		}
+
+		onGreet(payload) {
+			const gamemode = (payload.mode || '').toUpperCase();
+			const username = (payload.username || '').toUpperCase();
 			if (gamemode && STRATEGIES[gamemode]) {
 				const Strategy = STRATEGIES[gamemode];
 				this.opts = {Strategy, username};

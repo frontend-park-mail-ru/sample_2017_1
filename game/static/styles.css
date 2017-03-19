@@ -24,3 +24,32 @@
 .greet-form__choose-multi-button {
 
 }
+
+.wait-view {
+
+}
+
+.wait-view__header {
+	margin-top: 35px;
+	text-align: center;
+}
+
+.finish-view {
+
+}
+
+.finish-view__results {
+	z-index: 10;
+	margin: 25% auto;
+	text-align: center;
+}
+
+.finish-view__header {
+	text-align: center;
+	font-weight: 700;
+}
+
+.finish-view__result {
+	text-align: center;
+	font-weight: 500;
+}
