@@ -5,6 +5,7 @@
 
 	Mediator.initialize();
 	MagicTransport.initialize();
-	new Application;
+	const app = new Application;
+	app.start();
 
 })(window);

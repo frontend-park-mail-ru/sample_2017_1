@@ -4,36 +4,56 @@
 	<meta charset="UTF-8">
 	<title>Game</title>
 	<link rel="stylesheet" href="/reset.css">
+	<link rel="stylesheet" href="/milligram.css">
 	<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
-	<div id="greet" class="view-element"></div>
-	<div id="wait" class="view-element"></div>
-	<div id="game" class="view-element"></div>
-	<div id="finish" class="view-element"></div>
+	<div id="greet" class="view-element">
+		<div class="container">
+			<form class="greet-form">
+				<label for="username">Представьтесь</label>
+				<input type="text" class="greet-form__username-input" id="username" name="username" placeholder="Введите ваше имя"/>
+				<div class="greet-form__choose-buttons">
+					<input type="button" class="greet-form__choose-single-button" id="choose-single" value="Играть в одиночку">
+					<input type="button" class="greet-form__choose-multi-button" id="choose-multi" value="Играть с другом">
+				</div>
+			</form>
+		</div>
+	</div>
+	<div id="wait" class="view-element">
+		<div class="container"></div>
+	</div>
+	<div id="game" class="view-element">
+		<div class="container"></div>
+	</div>
+	<div id="finish" class="view-element">
+		<div class="container"></div>
+	</div>
 
 
 
-	<script src="modules/ControllersManager.js"></script>
-	<script src="modules/Mediator.js"></script>
+	<script src="/lib/eventemitter2.js"></script>
 
-	<script src="transports/MagicTransport.js"></script>
+	<script src="/modules/ControllersManager.js"></script>
+	<script src="/modules/Mediator.js"></script>
 
-	<script src="game-modules/GameManager.js"></script>
-	<script src="game-modules/GameScene.js"></script>
-	<script src="game-modules/GameStrategy.js"></script>
-	<script src="game-modules/game-strategies/SinglePlayerStrategy.js"></script>
-	<script src="game-modules/game-strategies/MultiPlayerStrategy.js"></script>
-	<script src="game-modules/Game.js"></script>
+	<script src="/transports/MagicTransport.js"></script>
 
-	<script src="views/View.js"></script>
-	<script src="views/GreetView.js"></script>
-	<script src="views/WaitView.js"></script>
-	<script src="views/GameView.js"></script>
-	<script src="views/FinishView.js"></script>
+	<script src="/game-modules/GameManager.js"></script>
+	<script src="/game-modules/GameScene.js"></script>
+	<script src="/game-modules/GameStrategy.js"></script>
+	<script src="/game-modules/game-strategies/SinglePlayerStrategy.js"></script>
+	<script src="/game-modules/game-strategies/MultiPlayerStrategy.js"></script>
+	<script src="/game-modules/Game.js"></script>
 
-	<script src="Application.js"></script>
-	<script src="main.js"></script>
+	<script src="/views/View.js"></script>
+	<script src="/views/GreetView.js"></script>
+	<script src="/views/WaitView.js"></script>
+	<script src="/views/GameView.js"></script>
+	<script src="/views/FinishView.js"></script>
+
+	<script src="/Application.js"></script>
+	<script src="/main.js"></script>
 </body>
 </html>

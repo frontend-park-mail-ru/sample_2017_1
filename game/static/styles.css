@@ -4,3 +4,23 @@
 	width: 100vw;
 	background-color: whitesmoke;
 }
+
+.greet-form {
+	margin-top: 14%;
+}
+
+.greet-form__username-input {
+	font-size: 22px;
+}
+
+.greet-form__choose-buttons {
+
+}
+
+.greet-form__choose-single-button {
+
+}
+
+.greet-form__choose-multi-button {
+
+}
