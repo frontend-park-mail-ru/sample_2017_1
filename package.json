@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "npm run pug && node server.js",
-    "pug": "pug -c -D -E pug.js -n chat_tmpl static/blocks/**/*.pug"
+    "pug": "pug -c -D -E pug.js -n chat_tmpl static/blocks/chat/chat.pug"
   },
   "repository": {
     "type": "git",
