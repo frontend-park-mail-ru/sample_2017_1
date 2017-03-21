@@ -7,6 +7,10 @@
 	padding: 0;
 }
 
+.view_hidden {
+	display: none;
+}
+
 html {
 	box-sizing: border-box;
 	font-size: 60%;

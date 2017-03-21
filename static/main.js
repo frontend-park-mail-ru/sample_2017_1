@@ -4,6 +4,20 @@
 	const Form = window.Form;
 	const Chat = window.Chat;
 	const HTTP = window.HTTP;
+	const Router = window.Router;
+	const LoginView = window.LoginView;
+	const ChatView = window.ChatView;
+
+	let router = new Router(window.document.documentElement);
+
+	let loginView = new LoginView(document.querySelector('.login-view'));
+	let chatView = new ChatView(document.querySelector('.chat-view'));
+
+    router.register('/', loginView);
+	router.register('/login', loginView);
+	router.register('/chat', chatView);
+
+	router.start();
 
 	const http = new HTTP();
 	http.BaseURL = 'https://sample-backend.herokuapp.com/api';
