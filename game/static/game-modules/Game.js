@@ -2,7 +2,6 @@ window.Game = (function (window) {
 	const Mediator = window.Mediator;
 	const GameStrategy = window.GameStrategy;
 	const GameManager = window.GameManager;
-	const GameScene = window.GameScene;
 
 	const mediator = new Mediator;
 
@@ -13,15 +12,32 @@ window.Game = (function (window) {
 	class Game {
 		/**
 		 * @param {GameStrategy} Strategy - реализация игровой стратегии
-		 * @param {String} username - имя пользователя
+		 * @param {String} username - имя первого пользователя
+		 * @param {CanvasElement} canvas - canvas-игрового поля
 		 */
-		constructor(Strategy, username) {
+		constructor(Strategy, username, canvas) {
+			console.log('Game.fn');
 			if (!(Strategy.prototype instanceof GameStrategy)) {
 				throw new TypeError('Strategy is not a GameStrategy');
 			}
 
-			this.Strategy = Strategy;
 			this.username = username;
+			this.canvas = canvas;
+
+			this.strategy = new Strategy;
+			this.manager = new GameManager(this.username, this.canvas);
+		}
+
+		stop() {
+			this.manager.stop();
+		}
+
+		destroy() {
+			this.manager.destroy();
+			this.strategy.destroy();
+
+			this.manager = null;
+			this.strategy = null;
 		}
 	}
 

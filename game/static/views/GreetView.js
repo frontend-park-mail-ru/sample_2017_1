@@ -22,7 +22,7 @@ window.GreetView = (function (window) {
 				return;
 			}
 
-			this.mediator.emit(Mediator.MODE_CHOOSED, {username, mode});
+			this.mediator.emit(EVENTS.MODE_CHOOSED, {username, mode});
 		}
 	}
 

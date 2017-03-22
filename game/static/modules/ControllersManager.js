@@ -2,20 +2,11 @@ window.ControllersManager = (function (window) {
 
 	class ControllersManager {
 		constructor() {
-			if (ControllersManager.__instance) {
-				return ControllersManager.__instance;
-			}
-			ControllersManager.__instance = this;
-
-
+			console.log('ControllersManager.fn');
 		}
 
-		static initialize() {
-			new ControllersManager;
-		}
-
-		stop() {
-			ControllersManager.__instance = null;
+		destroy() {
+			window.removeEventListener('resize', this.bindedResizer);
 		}
 	}
 

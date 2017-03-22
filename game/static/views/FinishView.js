@@ -5,21 +5,20 @@ window.FinishView = (function (window) {
 		constructor() {
 			super();
 
-			this.verdict = null;
+			this.results = null;
 			this.verdictHeader = this._el.querySelector('.finish-view__result');
 		}
 
-		show(verdict = null) {
+		show(results) {
 			super.show();
 
-			if (!(verdict || this.verdict)) {
+			if (!(results || this.results)) {
 				return;
 			}
-			this.verdict = this.verdict || verdict;
-			this.verdictHeader.textContent = this.verdict.verdict ?
-				'Вы победили!' :
-				'Вы потерпели неудачу...';
+			this.results = this.results || results;
 
+			const text = this.results.text || 'Игра окончена!';
+			this.verdictHeader.textContent = text;
 		}
 	}
 

@@ -51,41 +51,5 @@ window.Mediator = (function (window) {
 		}
 	}
 
-	/**
-	 * Имя события "Совершили выбор игрового режима"
-	 * @const
-	 * @type {string}
-	 */
-	Mediator.MODE_CHOOSED = 'MODE_CHOOSED';
-
-	/**
-	 * Имя события "Поиск оппонента в игре по сети"
-	 * @const
-	 * @type {string}
-	 */
-	Mediator.WAITING_FOR_OPPONENT = 'WAITING_FOR_OPPONENT';
-
-	/**
-	 * Имя события "Старт игры"
-	 * @const
-	 * @type {string}
-	 */
-	Mediator.START_THE_GAME = 'START_THE_GAME';
-
-	/**
-	 * Имя события "Завершение игры"
-	 * @const
-	 * @type {string}
-	 */
-	Mediator.FINISH_THE_GAME = 'FINISH_THE_GAME';
-
-	/**
-	 * Имя события "Завершение работы приложения"
-	 * @const
-	 * @type {string}
-	 */
-	Mediator.DESTROY_APP = 'DESTROY_APP';
-
-
 	return Mediator;
 })(window);

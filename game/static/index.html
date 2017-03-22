@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<div id="greet" class="view-element">
+	<div id="greet" class="view-element greet-view">
 		<div class="container">
 			<form class="greet-form">
 				<label for="username">Представьтесь</label>
@@ -38,11 +38,10 @@
 		</div>
 	</div>
 
-	<div id="game" class="view-element">
-		<div class="container">
-			<h1>KEK game</h1>
-		</div>
+	<div id="game" class="view-element game-view">
+		<canvas class="game-view__canvas-element"></canvas>
 	</div>
+
 	<div id="finish" class="view-element finish-view">
 		<div class="pyro">
 			<div class="before"></div>
@@ -56,6 +55,7 @@
 
 
 
+	<script src="/events.js"></script>
 	<script src="/lib/eventemitter2.js"></script>
 
 	<script src="/modules/ControllersManager.js"></script>
@@ -63,11 +63,11 @@
 
 	<script src="/transports/MagicTransport.js"></script>
 
-	<script src="/game-modules/GameManager.js"></script>
 	<script src="/game-modules/GameScene.js"></script>
 	<script src="/game-modules/GameStrategy.js"></script>
 	<script src="/game-modules/game-strategies/SinglePlayerStrategy.js"></script>
 	<script src="/game-modules/game-strategies/MultiPlayerStrategy.js"></script>
+	<script src="/game-modules/GameManager.js"></script>
 	<script src="/game-modules/Game.js"></script>
 
 	<script src="/views/View.js"></script>

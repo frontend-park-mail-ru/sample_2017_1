@@ -7,7 +7,5 @@ window.WaitView = (function (window) {
 		}
 	}
 
-
-
 	return WaitView;
 })(window);

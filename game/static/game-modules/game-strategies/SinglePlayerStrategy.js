@@ -6,6 +6,7 @@ window.SinglePlayerStrategy = (function (window) {
 
 	class SinglePlayerStrategy extends GameStrategy {
 		constructor() {
+			console.log('SinglePlayerStrategy.fn');
 			super();
 		}
 	}

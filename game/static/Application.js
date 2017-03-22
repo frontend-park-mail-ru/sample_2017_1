@@ -1,4 +1,5 @@
 window.Application = (function (window) {
+	const EVENTS = window.EVENTS;
 	const Mediator = window.Mediator;
 	const FinishView = window.FinishView;
 	const GameView = window.GameView;
@@ -44,11 +45,11 @@ window.Application = (function (window) {
 			this.opts = null;
 
 
-			this.subscribe(Mediator.WAITING_FOR_OPPONENT, 'waitOpponent');
-			this.subscribe(Mediator.FINISH_THE_GAME, 'finishGame');
-			this.subscribe(Mediator.START_THE_GAME, 'startGame');
-			this.subscribe(Mediator.MODE_CHOOSED, 'onGreet');
-			this.subscribe(Mediator.DESTROY_APP, 'destroy');
+			this.subscribe(EVENTS.OPEN_WAITING_VIEW, 'waitOpponent');
+			this.subscribe(EVENTS.OPEN_FINISH_VIEW, 'finishGame');
+			this.subscribe(EVENTS.OPEN_GAME_VIEW, 'startGame');
+			this.subscribe(EVENTS.MODE_CHOOSED, 'onGreet');
+			this.subscribe(EVENTS.DESTROY_APP, 'destroy');
 		}
 
 		start() {
@@ -56,25 +57,29 @@ window.Application = (function (window) {
 		}
 
 		waitOpponent(payload) {
-			this.views.greet.hide();
-			this.views.greet.destroy();
-			delete this.views.greet;
+			if (this.views.greet) {
+				this.views.greet.hide();
+				this.views.greet.destroy();
+				delete this.views.greet;
+			}
 
 			this.views.wait.show();
 		}
 
 		startGame(payload) {
+			this.views.wait.hide();
+			this.views.wait.destroy();
+			delete this.views.wait;
 
+			this.views.game.show();
 		}
 
 		finishGame(payload) {
-			const verdict = payload.verdict;
-
 			this.views.game.hide();
 			this.views.game.destroy();
 			delete this.views.game;
 
-			this.views.finish.show(verdict && {verdict});
+			this.views.finish.show(payload.results);
 		}
 
 		onGreet(payload) {
@@ -83,8 +88,10 @@ window.Application = (function (window) {
 			if (gamemode && STRATEGIES[gamemode]) {
 				const Strategy = STRATEGIES[gamemode];
 				this.opts = {Strategy, username};
-				this.game = new Game(Strategy, username);
-				this.unsubscribe(Mediator.MODE_CHOOSED);
+				const gameCanvas = this.views.game.canvas;
+				this.game = new Game(Strategy, username, gameCanvas);
+
+				this.unsubscribe(EVENTS.MODE_CHOOSED);
 				this.waitOpponent();
 			}
 		}
@@ -100,7 +107,7 @@ window.Application = (function (window) {
 		}
 
 		destroy() {
-			this._subscribed.forEach(data => this.mediator.off(data.name, this.mediatorCallback));
+			this._subscribed.forEach(data => mediator.off(data.name, this.mediatorCallback));
 			this._subscribed = null;
 			this.game.stop();
 			this.game.destroy();

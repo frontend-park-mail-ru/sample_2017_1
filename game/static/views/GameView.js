@@ -4,9 +4,10 @@ window.GameView = (function (window) {
 	class GameView extends View {
 		constructor() {
 			super();
+
+			this.canvas = this._el.querySelector('.game-view__canvas-element');
 		}
 	}
-
 
 
 	return GameView;
