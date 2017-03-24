@@ -44,7 +44,7 @@ window.SinglePlayerStrategy = (function (window) {
 		}
 
 		onNewCommand(payload) {
-			console.log('GameStrategy.fn.onNewCommand', payload);
+			console.log('SinglePlayerStrategy.fn.onNewCommand', payload);
 			if (this._pressed('FIRE', payload)) {
 				const bullet = {
 					x: this.state.me.xpos,

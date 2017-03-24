@@ -20,7 +20,7 @@ window.MagicTransport = (function (window) {
 				console.dir(this.ws);
 
 				this.ws.onmessage = this.handleMessage.bind(this);
-				const interval =  this.interval = setInterval(() => this.ws.send('update'), 30 * 60);
+				const interval = this.interval = setInterval(() => this.ws.send('update'), 10 * 1000);
 
 				this.ws.onclose = function () {
 					clearInterval(interval);

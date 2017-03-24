@@ -8,12 +8,9 @@ window.MultiPlayerStrategy = (function (window) {
 
 	const gameEventsReseived = [
 		'SIGNAL_TO_WAIT_OPPONENT',
-		'FOUND_THE_OPPONENT',
 		'RECEIVE_GAME_INFO',
 		'START_THE_GAME',
-		'SIGNAL_OPPONENT_LEAVED',
-		'SIGNAL_WE_ARE_WIN',
-		'SIGNAL_WE_ARE_LOOSE',
+		'SIGNAL_FINISH_GAME',
 		'NEW_GAME_STATE'
 	];
 
@@ -29,6 +26,30 @@ window.MultiPlayerStrategy = (function (window) {
 
 			this.fireWaitOpponent();
 			transport.send('newPlayer', {username: payload.username});
+		}
+
+		onNewCommand(payload) {
+			console.log('MultiPlayerStrategy.fn.onNewCommand', payload);
+			if (this._pressed('FIRE', payload)) {
+				transport.send('newCommand', {code: 'FIRE'});
+				return;
+			}
+			if (this._pressed('LEFT', payload)) {
+				transport.send('newCommand', {code: 'LEFT'});
+				return;
+			}
+			if (this._pressed('RIGHT', payload)) {
+				transport.send('newCommand', {code: 'RIGHT'});
+				return;
+			}
+			if (this._pressed('UP', payload)) {
+				transport.send('newCommand', {code: 'UP'});
+				return;
+			}
+			if (this._pressed('DOWN', payload)) {
+				transport.send('newCommand', {code: 'DOWN'});
+				return;
+			}
 		}
 	}
 
