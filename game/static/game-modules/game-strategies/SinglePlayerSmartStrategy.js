@@ -68,7 +68,7 @@ window.SinglePlayerSmartStrategy = (function (window) {
 				return;
 			}
 			if (this._pressed('UP', payload)) {
-				if (this.state.me.ypos < 7) {
+				if (this.state.me.ypos < 6) {
 					this.state.me.ypos++;
 				}
 				return;
