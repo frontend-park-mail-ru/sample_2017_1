@@ -6,7 +6,8 @@ window.Game = (function (window) {
 	const mediator = new Mediator;
 
 	/**
-	 * @global
+	 * Game
+	 * @name Game
 	 * @class Game
 	 */
 	class Game {
@@ -24,20 +25,12 @@ window.Game = (function (window) {
 			this.username = username;
 			this.canvas = canvas;
 
-			this.strategy = new Strategy;
-			this.manager = new GameManager(this.username, this.canvas);
-		}
-
-		stop() {
-			this.manager.stop();
+			this.manager = new GameManager(this.username, this.canvas, Strategy);
 		}
 
 		destroy() {
 			this.manager.destroy();
-			this.strategy.destroy();
-
 			this.manager = null;
-			this.strategy = null;
 		}
 	}
 

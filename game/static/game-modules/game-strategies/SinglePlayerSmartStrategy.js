@@ -1,4 +1,4 @@
-window.SinglePlayerStrategy = (function (window) {
+window.SinglePlayerSmartStrategy = (function (window) {
 	const Mediator = window.Mediator;
 	const GameStrategy = window.GameStrategy;
 
@@ -12,16 +12,16 @@ window.SinglePlayerStrategy = (function (window) {
 		UP: ['w', 'W', 'ц', 'Ц', 'ArrowUp'],
 	};
 
-	class SinglePlayerStrategy extends GameStrategy {
+	class SinglePlayerSmartStrategy extends GameStrategy {
 		constructor() {
-			console.log('SinglePlayerStrategy.fn');
+			console.log('SinglePlayerSmartStrategy.fn');
 			super();
 
 			this.interval = null;
 		}
 
 		onLoggedIn(payload) {
-			console.log('SinglePlayerStrategy.fn.onLoggedIn', arguments);
+			console.log('SinglePlayerSmartStrategy.fn.onLoggedIn', arguments);
 			this.me = payload.username;
 			this.opponent = 'Jhon Snow';
 			this.fireOpponentFound(this.me, this.opponent);
@@ -36,7 +36,8 @@ window.SinglePlayerStrategy = (function (window) {
 				opponent: {
 					xpos: 18,
 					ypos: 32,
-					hp: 10
+					hp: 10,
+					cooldown: 10
 				}
 			};
 
@@ -44,7 +45,7 @@ window.SinglePlayerStrategy = (function (window) {
 		}
 
 		onNewCommand(payload) {
-			console.log('GameStrategy.fn.onNewCommand', payload);
+			console.log('SinglePlayerSmartStrategy.fn.onNewCommand', payload);
 			if (this._pressed('FIRE', payload)) {
 				const bullet = {
 					x: this.state.me.xpos,
@@ -115,11 +116,31 @@ window.SinglePlayerStrategy = (function (window) {
 			}
 
 			if (this.state.me.hp <= 0) {
-				return this.fireGameOver(`Игра окончена, вы проиграли`);
+				return this.fireGameOver(`Игра окончена, вы проиграли (${this.me}:${this.state.me.hp} / ${this.opponent}:${this.state.opponent.hp})`);
 			}
 
 			if (this.state.opponent.hp <= 0) {
-				return this.fireGameOver(`Игра окончена, вы победили`);
+				return this.fireGameOver(`Игра окончена, вы победили (${this.me}:${this.state.me.hp} / ${this.opponent}:${this.state.opponent.hp})`);
+			}
+
+			if (this.state.opponent.cooldown > 0) {
+				this.state.opponent.cooldown--;
+			} else {
+				this.state.opponent.xpos = this.state.me.xpos;
+				this.state.bullets.push({
+					x: this.state.opponent.xpos,
+					y: this.state.opponent.ypos,
+					dir: 'down'
+				}, {
+					x: this.state.opponent.xpos,
+					y: this.state.opponent.ypos - 1,
+					dir: 'down'
+				}, {
+					x: this.state.opponent.xpos,
+					y: this.state.opponent.ypos + 1,
+					dir: 'down'
+				});
+				this.state.opponent.cooldown = 10;
 			}
 
 			this.fireSetNewGameState(this.state);
@@ -147,5 +168,5 @@ window.SinglePlayerStrategy = (function (window) {
 	}
 
 
-	return SinglePlayerStrategy;
+	return SinglePlayerSmartStrategy;
 })(window);

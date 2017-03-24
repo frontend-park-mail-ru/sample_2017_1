@@ -7,11 +7,13 @@ window.Application = (function (window) {
 	const WaitView = window.WaitView;
 	const MultiPlayerStrategy = window.MultiPlayerStrategy;
 	const SinglePlayerStrategy = window.SinglePlayerStrategy;
+	const SinglePlayerSmartStrategy = window.SinglePlayerSmartStrategy;
 	const Game = window.Game;
 
 	const STRATEGIES = {
 		SINGLE: SinglePlayerStrategy,
 		MULTI: MultiPlayerStrategy,
+		SMART: SinglePlayerSmartStrategy
 	};
 
 	const mediator = new Mediator;
@@ -63,7 +65,9 @@ window.Application = (function (window) {
 				delete this.views.greet;
 			}
 
-			this.views.wait.show();
+ 			if (this.views.wait) {
+				this.views.wait.show();
+		    }
 		}
 
 		startGame(payload) {
@@ -75,14 +79,21 @@ window.Application = (function (window) {
 		}
 
 		finishGame(payload) {
+			console.log(`Application.fn.finishGame`, payload);
 			this.views.game.hide();
 			this.views.game.destroy();
 			delete this.views.game;
 
-			this.views.finish.show(payload.results);
+			this.game.destroy();
+			this.game = null;
+
+
+			this.views.finish.show({text: payload.results});
 		}
 
 		onGreet(payload) {
+			console.log(`Application.fn.onGreet`, payload);
+
 			const gamemode = (payload.mode || '').toUpperCase();
 			const username = (payload.username || '').toUpperCase();
 			if (gamemode && STRATEGIES[gamemode]) {
@@ -109,9 +120,6 @@ window.Application = (function (window) {
 		destroy() {
 			this._subscribed.forEach(data => mediator.off(data.name, this.mediatorCallback));
 			this._subscribed = null;
-			this.game.stop();
-			this.game.destroy();
-			this.game = null;
 		}
 	}
 

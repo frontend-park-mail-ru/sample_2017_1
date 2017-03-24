@@ -26,7 +26,7 @@ window.Mediator = (function (window) {
 		 * @param {Function} func - функция-обработчик
 		 */
 		on(name, func) {
-			console.log('Mediator.fn.on', arguments);
+			// console.log('Mediator.fn.on', arguments);
 			this.__emitter.on(name, func);
 		}
 
@@ -36,7 +36,7 @@ window.Mediator = (function (window) {
 		 * @param {Object} [payload=null] - объект с данными события
 		 */
 		emit(name, payload = null) {
-			console.log('Mediator.fn.emit', arguments);
+			// console.log('Mediator.fn.emit', arguments);
 			this.__emitter.emit(name, {name, payload});
 		}
 

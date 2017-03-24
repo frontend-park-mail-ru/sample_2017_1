@@ -20,21 +20,8 @@ window.GameScene = (function (window) {
 			window.addEventListener('resize', this.bindedResizer);
 			this.resizer();
 
-			this.setState({
-				bullets: [{x:7, y:16}],
-				me: {
-					xpos: 1,
-					ypos: 1,
-					hp: 1
-				},
-				opponent: {
-					xpos: 16,
-					ypos: 32,
-					hp: 2
-				}
-			});
+			this.setState({});
 			this.render();
-			setInterval(this.render.bind(this), 1000);
 		}
 
 		resizer() {
@@ -49,10 +36,14 @@ window.GameScene = (function (window) {
 		}
 
 		setState(state) {
+			// console.log(`GameScene.fn.setState`, state);
+
 			this.state = state;
 		}
 
 		render() {
+			// console.log(`GameScene.fn.render`);
+
 			const ctx = this.ctx;
 			ctx.fillStyle = 'white';
 			ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -68,6 +59,24 @@ window.GameScene = (function (window) {
 			ctx.closePath();
 			ctx.stroke();
 
+			if (!this.state) {
+				return;
+			}
+			ctx.fillStyle = 'black';
+
+			if (this.state.bullets) {
+				this.state.bullets.forEach(blt => {
+					ctx.beginPath();
+					ctx.arc(blt.x * this.fieldSize + 0.5 * this.fieldSize, this.canvas.dheight - (blt.y * this.fieldSize + 0.5 * this.fieldSize), this.fieldSize / 2 - 2, 0, 4 * Math.PI);
+					ctx.closePath();
+					ctx.fill();
+				});
+			}
+
+			if (!(this.state.me && this.state.opponent)) {
+				return;
+			}
+
 			ctx.fillStyle = 'blue';
 			ctx.fillRect(2, this.canvas.dheight - (userspace + 5 * this.state.me.hp / 10) * this.fieldSize - 2, this.fieldSize - 4, 5 * this.state.me.hp / 10 * this.fieldSize - 4);
 
@@ -77,13 +86,6 @@ window.GameScene = (function (window) {
 			ctx.fillStyle = 'black';
 			ctx.strokeRect(2, this.canvas.dheight - (userspace + 5) * this.fieldSize - 2, this.fieldSize - 4, 5 * this.fieldSize - 4);
 			ctx.strokeRect(this.canvas.dwidth - this.fieldSize + 2, userspace * this.fieldSize + 2, this.fieldSize - 4, 5 * this.fieldSize - 4);
-
-			this.state.bullets.forEach(blt => {
-				ctx.beginPath();
-				ctx.arc(blt.x * this.fieldSize + 0.5 * this.fieldSize, this.canvas.dheight - (blt.y * this.fieldSize + 0.5 * this.fieldSize), this.fieldSize / 2 - 2, 0, 4 * Math.PI);
-				ctx.closePath();
-				ctx.fill();
-			});
 
 			const mx = this.state.me.xpos;
 			const my = this.state.me.ypos;
@@ -97,8 +99,8 @@ window.GameScene = (function (window) {
 			ctx.lineTo((mx+2) * this.fieldSize, (this.canvas.dheight - 1) - (my+1) * this.fieldSize);
 			ctx.lineTo((mx+1) * this.fieldSize, (this.canvas.dheight - 1) - (my+1) * this.fieldSize);
 			ctx.lineTo((mx+1) * this.fieldSize, (this.canvas.dheight - 1) - (my+2) * this.fieldSize);
-			ctx.lineTo((mx) * this.fieldSize, (this.canvas.dheight - 1) - (my+2) * this.fieldSize);
-			ctx.lineTo((mx) * this.fieldSize, (this.canvas.dheight - 1) - (my+1) * this.fieldSize);
+			ctx.lineTo((mx-0) * this.fieldSize, (this.canvas.dheight - 1) - (my+2) * this.fieldSize);
+			ctx.lineTo((mx-0) * this.fieldSize, (this.canvas.dheight - 1) - (my+1) * this.fieldSize);
 			ctx.lineTo((mx-1) * this.fieldSize, (this.canvas.dheight - 1) - (my+1) * this.fieldSize);
 			ctx.lineTo((mx-1) * this.fieldSize, (this.canvas.dheight - 1) - (my-1) * this.fieldSize);
 			ctx.closePath();
@@ -109,14 +111,18 @@ window.GameScene = (function (window) {
 			ctx.moveTo((ox+2) * this.fieldSize, (this.canvas.dheight - 1) - (oy+2) * this.fieldSize);
 			ctx.lineTo((ox-1) * this.fieldSize, (this.canvas.dheight - 1) - (oy+2) * this.fieldSize);
 			ctx.lineTo((ox-1) * this.fieldSize, (this.canvas.dheight - 1) - (oy-0) * this.fieldSize);
-			ctx.lineTo((ox) * this.fieldSize, (this.canvas.dheight - 1) - (oy-0) * this.fieldSize);
-			ctx.lineTo((ox) * this.fieldSize, (this.canvas.dheight - 1) - (oy-1) * this.fieldSize);
+			ctx.lineTo((ox-0) * this.fieldSize, (this.canvas.dheight - 1) - (oy-0) * this.fieldSize);
+			ctx.lineTo((ox-0) * this.fieldSize, (this.canvas.dheight - 1) - (oy-1) * this.fieldSize);
 			ctx.lineTo((ox+1) * this.fieldSize, (this.canvas.dheight - 1) - (oy-1) * this.fieldSize);
 			ctx.lineTo((ox+1) * this.fieldSize, (this.canvas.dheight - 1) - (oy-0) * this.fieldSize);
 			ctx.lineTo((ox+2) * this.fieldSize, (this.canvas.dheight - 1) - (oy-0) * this.fieldSize);
 			ctx.lineTo((ox+2) * this.fieldSize, (this.canvas.dheight - 1) - (oy+2) * this.fieldSize);
 			ctx.closePath();
 			ctx.fill();
+		}
+
+		setNames(me, opponent) {
+			this.players = {me, opponent};
 		}
 
 		destroy() {

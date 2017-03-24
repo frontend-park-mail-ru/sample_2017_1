@@ -10,6 +10,8 @@ window.FinishView = (function (window) {
 		}
 
 		show(results) {
+			console.log(`FinishView.fn.show`, results);
+
 			super.show();
 
 			if (!(results || this.results)) {

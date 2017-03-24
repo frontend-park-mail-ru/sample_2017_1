@@ -4,6 +4,11 @@ window.GameStrategy = (function (window) {
 
 	const mediator = new Mediator;
 
+	/**
+	 * GameStrategy
+	 * @name GameStrategy
+	 * @class GameStrategy
+	 */
 	class GameStrategy {
 		constructor() {
 			console.log('GameStrategy.fn');
@@ -30,6 +35,10 @@ window.GameStrategy = (function (window) {
 
 			this.subscribe(EVENTS.WE_ARE_LOGGED_IN, 'onLoggedIn');
 			this.subscribe(EVENTS.NEXT_STEP_CONTROLS_PRESSED, 'onNewCommand');
+
+			this.me = null;
+			this.opponent = null;
+			this.state = null;
 		}
 
 		onLoggedIn(payload) {
@@ -65,7 +74,7 @@ window.GameStrategy = (function (window) {
 		}
 
 		fireSetNewGameState(state) {
-			console.log('GameStrategy.fn.fireSetNewGameState', arguments);
+			// console.log('GameStrategy.fn.fireSetNewGameState', arguments);
 			mediator.emit(EVENTS.SET_NEW_GAME_STATE, {state});
 		}
 

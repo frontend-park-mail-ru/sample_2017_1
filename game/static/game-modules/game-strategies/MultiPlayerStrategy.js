@@ -1,8 +1,10 @@
 window.MultiPlayerStrategy = (function (window) {
 	const Mediator = window.Mediator;
 	const GameStrategy = window.GameStrategy;
+	const MagicTransport = window.MagicTransport;
 
 	const mediator = new Mediator;
+	const transport = new MagicTransport;
 
 	const gameEventsReseived = [
 		'SIGNAL_TO_WAIT_OPPONENT',
@@ -19,6 +21,14 @@ window.MultiPlayerStrategy = (function (window) {
 		constructor() {
 			console.log('MultiPlayerStrategy.fn');
 			super();
+		}
+
+		onLoggedIn(payload) {
+			console.log('MultiPlayerStrategy.fn.onLoggedIn', arguments);
+			this.me = payload.username;
+
+			this.fireWaitOpponent();
+			transport.send('newPlayer', {username: payload.username});
 		}
 	}
 

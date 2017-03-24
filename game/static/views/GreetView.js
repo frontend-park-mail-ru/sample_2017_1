@@ -9,9 +9,11 @@ window.GreetView = (function (window) {
 			this.usernameInput = this.greetForm.elements['username'];
 			this.chooseSingle = this.greetForm.elements['choose-single'];
 			this.chooseMulti = this.greetForm.elements['choose-multi'];
+			this.chooseSmart = this.greetForm.elements['choose-smart'];
 
 			this.chooseSingle.addEventListener('click', this.onChoose.bind(this, 'single'));
 			this.chooseMulti.addEventListener('click', this.onChoose.bind(this, 'multi'));
+			this.chooseSmart.addEventListener('click', this.onChoose.bind(this, 'smart'));
 		}
 
 		onChoose(mode, event) {

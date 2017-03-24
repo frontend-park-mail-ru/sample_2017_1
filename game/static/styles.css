@@ -25,6 +25,10 @@
 
 }
 
+.greet-form__choose-smart-button {
+
+}
+
 .wait-view {
 
 }
@@ -35,7 +39,7 @@
 }
 
 .finish-view {
-
+	color: white;
 }
 
 .finish-view__results {
