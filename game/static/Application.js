@@ -96,6 +96,7 @@ window.Application = (function (window) {
 
 			const gamemode = (payload.mode || '').toUpperCase();
 			const username = (payload.username || '').toUpperCase();
+
 			if (gamemode && STRATEGIES[gamemode]) {
 				const Strategy = STRATEGIES[gamemode];
 				this.opts = {Strategy, username};

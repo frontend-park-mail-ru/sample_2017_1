@@ -46,7 +46,7 @@ class Game {
 			}
 			debug(`Игрок ${id} прислал message`, msg);
 			this.handleMessageFromPlayer(id, msg);
-		});
+		}.bind(this));
 	}
 
 	stop(id) {
@@ -58,9 +58,9 @@ class Game {
 
 	reset() {
 		debug('Сбрасываем инстанс игры');
+		['player1', 'player2'].forEach(id => this.send(id, 'SIGNAL_FINISH_GAME', {message: 'Игра окончена. Ваш противник покинул игру'}));
 		this.player1 = null;
 		this.player2 = null;
-		['player1', 'player2'].forEach(id => this.send(id, 'SIGNAL_FINISH_GAME', {message: 'Игра окончена. Ваш противник покинул игру'}));
 
 		this.gameState = null;
 		if (this.interval) {
@@ -71,7 +71,9 @@ class Game {
 	send(id, type, payload = null) {
 		try {
 			if (this[id]) {
-				this[id].send(JSON.stringify({type, payload}));
+				let body = JSON.stringify({type, payload});
+				debug(`send to ${id}`, body);
+				this[id].send(body);
 			}
 		} catch (err) {
 			return null;
@@ -79,7 +81,9 @@ class Game {
 	}
 
 	onNewPlayerLoggedIn(id, payload) {
+		debug(id, payload);
 		this[id].username = payload.username;
+		debug([this['player1'] && this['player1'].username, this['player2'] && this['player2'].username]);
 		if (this['player1'] && this['player1'].username && this['player2'] && this['player2'].username) {
 			this.startGame();
 		} else {
@@ -213,9 +217,16 @@ class Game {
 				name: this['player2'].username
 			}
 		};
-		this.send('player1', 'START_THE_GAME', {me: this['player1'].username, opponent: this['player2'].username});
-		this.send('player2', 'START_THE_GAME', {me: this['player2'].username, opponent: this['player1'].username});
+		this.send('player1', 'SIGNAL_START_THE_GAME', {
+			me: this['player1'].username,
+			opponent: this['player2'].username
+		});
+		this.send('player2', 'SIGNAL_START_THE_GAME', {
+			me: this['player2'].username,
+			opponent: this['player1'].username
+		});
 		this.interval = setInterval(() => this.gameLoop(), 100);
+		this.inplay = true;
 	}
 
 	gameLoop() {
@@ -226,10 +237,15 @@ class Game {
 		try {
 			const parsed = JSON.parse(msg);
 			const {type, payload} = parsed;
+			debug({type, payload});
+			debug(this.eventsMap[type]);
+			debug(this[this.eventsMap[type]]);
+
 			if (this.eventsMap[type] && typeof this[this.eventsMap[type]] === 'function') {
 				this[this.eventsMap[type]](id, payload);
 			}
 		} catch (err) {
+			console.error(err);
 			return null;
 		}
 	}

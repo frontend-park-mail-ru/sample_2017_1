@@ -6,18 +6,46 @@ window.MultiPlayerStrategy = (function (window) {
 	const mediator = new Mediator;
 	const transport = new MagicTransport;
 
+	const KEYS = {
+		FIRE: [' ', 'Enter'],
+		LEFT: ['a', 'A', 'ф', 'Ф', 'ArrowLeft'],
+		RIGHT: ['d', 'D', 'в', 'В', 'ArrowRight'],
+		DOWN: ['s', 'S', 'ы', 'Ы', 'ArrowDown'],
+		UP: ['w', 'W', 'ц', 'Ц', 'ArrowUp'],
+	};
+
 	const gameEventsReseived = [
 		'SIGNAL_TO_WAIT_OPPONENT',
-		'RECEIVE_GAME_INFO',
-		'START_THE_GAME',
+		'SIGNAL_START_THE_GAME',
 		'SIGNAL_FINISH_GAME',
-		'NEW_GAME_STATE'
+		'SIGNAL_NEW_GAME_STATE'
 	];
 
 	class MultiPlayerStrategy extends GameStrategy {
 		constructor() {
 			console.log('MultiPlayerStrategy.fn');
 			super();
+
+			this.subscribe('SIGNAL_START_THE_GAME', 'onStart');
+			this.subscribe('SIGNAL_NEW_GAME_STATE', 'onNewState');
+			this.subscribe('SIGNAL_FINISH_GAME', 'onNewState');
+			this.subscribe('SIGNAL_TO_WAIT_OPPONENT', 'onWaitOpponent');
+		}
+
+		onStart(payload) {
+			console.dir(payload);
+			this.fireOpponentFound(payload.me, payload.opponent);
+			this.fireStartGame();
+		}
+
+		onNewState(state) {
+			this.state = state;
+
+			this.fireSetNewGameState(this.state);
+		}
+
+		onWaitOpponent() {
+			this.fireWaitOpponent();
 		}
 
 		onLoggedIn(payload) {
@@ -50,6 +78,10 @@ window.MultiPlayerStrategy = (function (window) {
 				transport.send('newCommand', {code: 'DOWN'});
 				return;
 			}
+		}
+
+		_pressed(name, data) {
+			return KEYS[name].some(k => data[k.toLowerCase()]);
 		}
 	}
 

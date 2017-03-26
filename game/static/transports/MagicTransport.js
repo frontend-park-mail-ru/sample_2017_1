@@ -29,8 +29,10 @@ window.MagicTransport = (function (window) {
 		}
 
 		handleMessage(event) {
-			const messageText = event.message;
+			const messageText = event.data;
 			const message = JSON.parse(messageText);
+			console.log(message);
+
 
 			this.mediator.emit(message.type, message.payload);
 		}

@@ -12,6 +12,7 @@ window.SinglePlayerStrategy = (function (window) {
 		UP: ['w', 'W', 'ц', 'Ц', 'ArrowUp'],
 	};
 
+
 	class SinglePlayerStrategy extends GameStrategy {
 		constructor() {
 			console.log('SinglePlayerStrategy.fn');
@@ -115,11 +116,11 @@ window.SinglePlayerStrategy = (function (window) {
 			}
 
 			if (this.state.me.hp <= 0) {
-				return this.fireGameOver(`Игра окончена, вы проиграли`);
+				return this.fireGameOver(`Игра окончена, вы проиграли (${this.me}:${this.state.me.hp} / ${this.opponent}:${this.state.opponent.hp})`);
 			}
 
 			if (this.state.opponent.hp <= 0) {
-				return this.fireGameOver(`Игра окончена, вы победили`);
+				return this.fireGameOver(`Игра окончена, вы победили (${this.me}:${this.state.me.hp} / ${this.opponent}:${this.state.opponent.hp})`);
 			}
 
 			this.fireSetNewGameState(this.state);
