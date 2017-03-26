@@ -28,7 +28,7 @@ window.MultiPlayerStrategy = (function (window) {
 
 			this.subscribe('SIGNAL_START_THE_GAME', 'onStart');
 			this.subscribe('SIGNAL_NEW_GAME_STATE', 'onNewState');
-			this.subscribe('SIGNAL_FINISH_GAME', 'onNewState');
+			this.subscribe('SIGNAL_FINISH_GAME', 'onFinishGame');
 			this.subscribe('SIGNAL_TO_WAIT_OPPONENT', 'onWaitOpponent');
 		}
 
@@ -42,6 +42,10 @@ window.MultiPlayerStrategy = (function (window) {
 			this.state = state;
 
 			this.fireSetNewGameState(this.state);
+		}
+
+		onFinishGame(payload) {
+			this.fireGameOver(payload.message || 'Игра окончена');
 		}
 
 		onWaitOpponent() {

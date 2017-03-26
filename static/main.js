@@ -1,17 +1,20 @@
 (function () {
 	'use strict';
 
-	const Form = window.Form;
-	const Chat = window.Chat;
-	const HTTP = window.HTTP;
-	const Router = window.Router;
 	const LoginView = window.LoginView;
 	const ChatView = window.ChatView;
+	const MenuView = window.MenuView;
+	const Router = window.Router;
+	const HTTP = window.HTTP;
+
+	const http = new HTTP();
+	http.BaseURL = 'https://sample-backend.herokuapp.com/api';
 
 	let router = new Router(window.document.documentElement);
 
 	let loginView = new LoginView(document.querySelector('.login-view'));
 	let chatView = new ChatView(document.querySelector('.chat-view'));
+	let menuView = new MenuView(document.querySelector('.menu-view'));
 
     router.register('/', loginView);
 	router.register('/login', loginView);
@@ -19,38 +22,10 @@
 
 	router.start();
 
-	const http = new HTTP();
-	http.BaseURL = 'https://sample-backend.herokuapp.com/api';
-
 	let loginPage = document.querySelector('#login');
 	let chatPage = document.querySelector('#chat');
 
-	let loginForm = new Form({
-		el: document.createElement('div'),
-		data: {
-			title: 'Login',
-			fields: [
-				{
-					name: 'user',
-					type: 'text',
-					placeholder: 'Логин'
-				},
-				{
-					name: 'email',
-					type: 'email',
-					placeholder: 'E-mail'
-				}
-			],
-			controls: [
-				{
-					text: 'Войти',
-					attrs: {
-						type: 'submit'
-					}
-				}
-			]
-		}
-	});
+
 
 	let chat = new Chat({
 		el: document.createElement('div'),
@@ -109,32 +84,5 @@
 	loginPage.appendChild(loginForm.el);
 	chatPage.appendChild(chat.el);
 	chatPage.appendChild(chatForm.el);
-
-	loginPage.hidden = false;
-	chatPage.hidden = true;
-
-	http
-		.getPromise('/messages', null)
-		.then(xhr => {
-			const id = 'lalala';
-			console.log(`Статус = ${xhr.status}, ответ = ${xhr.responseText}`);
-			return http.getPromise('/api/messages/' + id, null);
-		})
-		.then(xhr => {
-			console.log(`Статус = ${xhr.status}`);
-		});
-
-	window
-		.fetch('https://sample-backend.herokuapp.com/api/messages', {
-			method: 'get',
-			mode: 'cors'
-		})
-		.then(response => {
-			return response.json();
-		})
-		.then(json => {
-			console.log('FETCH says:', json);
-
-		})
 
 })();

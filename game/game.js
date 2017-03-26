@@ -72,10 +72,13 @@ class Game {
 		try {
 			if (this[id]) {
 				let body = JSON.stringify({type, payload});
-				debug(`send to ${id}`, body);
+				if (type !== 'SIGNAL_NEW_GAME_STATE') {
+					debug(`send to ${id}`, body);
+				}
 				this[id].send(body);
 			}
 		} catch (err) {
+			console.error(err);
 			return null;
 		}
 	}
@@ -96,8 +99,8 @@ class Game {
 			case 'player1' : {
 				this.gameState.bullets.push({
 					x: this.gameState[id].xpos,
-					y: this.gameState[id].ypos - 1,
-					dir: 'down'
+					y: this.gameState[id].ypos + 1,
+					dir: 'up'
 				});
 				break;
 			}
@@ -105,8 +108,8 @@ class Game {
 			case 'player2' : {
 				this.gameState.bullets.push({
 					x: this.gameState[id].xpos,
-					y: this.gameState[id].ypos + 1,
-					dir: 'up'
+					y: this.gameState[id].ypos - 1,
+					dir: 'down'
 				});
 				break;
 			}
@@ -125,8 +128,8 @@ class Game {
 
 			case 'player2' : {
 				this.gameState[id].xpos++;
-				if (this.gameState[id].xpos > 32) {
-					this.gameState[id].xpos = 32;
+				if (this.gameState[id].xpos > 18) {
+					this.gameState[id].xpos = 18;
 				}
 				break;
 			}
@@ -137,8 +140,8 @@ class Game {
 		switch (id) {
 			case 'player1' : {
 				this.gameState[id].xpos++;
-				if (this.gameState[id].xpos > 32) {
-					this.gameState[id].xpos = 32;
+				if (this.gameState[id].xpos > 18) {
+					this.gameState[id].xpos = 18;
 				}
 				break;
 			}
@@ -184,7 +187,7 @@ class Game {
 			}
 
 			case 'player2' : {
-				this.gameState[id].ypos--;
+				this.gameState[id].ypos++;
 				if (this.gameState[id].ypos > 32) {
 					this.gameState[id].ypos = 32;
 				}
@@ -229,8 +232,91 @@ class Game {
 		this.inplay = true;
 	}
 
-	gameLoop() {
+	prepareStateToSend1(state) {
+		const state1 = {};
+		state1.me = state.player1;
+		state1.opponent = state.player2;
+		state1.bullets = state.bullets;
+		return state1;
+	}
 
+	prepareStateToSend2(state) {
+		const state2 = {};
+		state2.opponent = Object.assign({}, state.player1);
+		state2.opponent.xpos = 19 - state2.opponent.xpos;
+		state2.opponent.ypos = 33 - state2.opponent.ypos;
+
+		state2.me = Object.assign({}, state.player2);
+		state2.me.xpos = 19 - state2.me.xpos;
+		state2.me.ypos = 33 - state2.me.ypos;
+
+		state2.bullets = state.bullets.map(b => {
+			let nb = {};
+			if (b.dir === 'up') {
+				nb.dir = 'down';
+			} else {
+				nb.dir = 'up';
+			}
+			nb.x = 19 - b.x;
+			nb.y = 33 - b.y;
+			return nb;
+		});
+		return state2;
+	}
+
+	stopFinishGame(idwin, idfall) {
+		this.send(idwin, 'SIGNAL_FINISH_GAME', {message: `Игра окончена. Вы победили (${this.gameState[idwin].name}(${this.gameState[idwin].hp})/${this.gameState[idfall].name}(${this.gameState[idfall].hp}))`});
+		this.send(idfall, 'SIGNAL_FINISH_GAME', {message: `Игра окончена. Вы проиграли (${this.gameState[idwin].name}(${this.gameState[idwin].hp})/${this.gameState[idfall].name}(${this.gameState[idfall].hp}))`});
+		this.player1 = null;
+		this.player2 = null;
+		this.reset();
+	}
+
+	gameLoop() {
+		if (this.gameState && this.gameState.bullets) {
+			this.gameState.bullets = this.gameState.bullets.map(blt => {
+				switch (blt.dir) {
+					case 'down': {
+						blt.y--;
+						if (Math.abs(this.gameState.player1.xpos - blt.x) <= 1) {
+							if (Math.abs(this.gameState.player1.ypos - blt.y) <= 1) {
+								this.gameState.player1.hp--;
+								return null;
+							}
+						}
+						break;
+					}
+					case 'up': {
+						blt.y++;
+						if (Math.abs(this.gameState.player2.xpos - blt.x) <= 1) {
+							if (Math.abs(this.gameState.player2.ypos - blt.y) <= 1) {
+								this.gameState.player2.hp--;
+								return null;
+							}
+						}
+						break;
+					}
+				}
+				if (blt.y > 33 || blt.y < 0) {
+					return null;
+				}
+				return blt;
+			});
+			this.gameState.bullets = this.gameState.bullets.filter(blt => blt);
+		}
+
+
+		if (this.gameState.player1.hp <= 0) {
+			return this.stopFinishGame('player2', 'player1');
+		}
+
+		if (this.gameState.player2.hp <= 0) {
+			return this.stopFinishGame('player1', 'player2');
+
+		}
+
+		this.send('player1', 'SIGNAL_NEW_GAME_STATE', this.prepareStateToSend1(this.gameState));
+		this.send('player2', 'SIGNAL_NEW_GAME_STATE', this.prepareStateToSend2(this.gameState));
 	}
 
 	handleMessageFromPlayer(id, msg) {

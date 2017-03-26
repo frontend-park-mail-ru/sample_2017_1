@@ -1,6 +1,9 @@
 (function () {
+	'use strict';
 
-    const BaseView = window.BaseView;
+	const Form = window.Form;
+	const Chat = window.Chat;
+	const BaseView = window.BaseView;
 
     class LoginView extends BaseView {
 

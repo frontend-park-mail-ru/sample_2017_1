@@ -1,4 +1,5 @@
 (function () {
+	'use strict';
 
     class Router {
 
@@ -50,7 +51,7 @@
         }
 
         /**
-         * Перетий по маршруту
+         * Перейти по маршруту
          * @param {string} path
          * @return {boolean} - если есть маршрурт
          */
